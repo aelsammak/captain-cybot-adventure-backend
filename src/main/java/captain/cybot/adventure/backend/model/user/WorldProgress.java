@@ -1,6 +1,7 @@
-package captain.cybot.adventure.backend.model;
+package captain.cybot.adventure.backend.model.user;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import captain.cybot.adventure.backend.model.user.User;
+import captain.cybot.adventure.backend.model.user.World;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

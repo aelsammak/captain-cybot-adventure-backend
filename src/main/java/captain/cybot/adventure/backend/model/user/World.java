@@ -1,5 +1,6 @@
-package captain.cybot.adventure.backend.model;
+package captain.cybot.adventure.backend.model.user;
 
+import captain.cybot.adventure.backend.model.user.Level;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

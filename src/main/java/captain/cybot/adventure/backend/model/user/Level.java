@@ -1,4 +1,4 @@
-package captain.cybot.adventure.backend.model;
+package captain.cybot.adventure.backend.model.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
