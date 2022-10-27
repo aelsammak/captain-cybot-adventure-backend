@@ -12,9 +12,9 @@ import javax.persistence.Entity;
 @Setter
 public class WordSearch extends Question {
     private String[][] searchArray;
-    private String answer;
+    private String[] answer;
 
-    public WordSearch(String[][] searchArray, String answer) {
+    public WordSearch(String[][] searchArray, String[] answer) {
         this.searchArray = searchArray;
         this.answer = answer;
     }

@@ -12,10 +12,10 @@ import java.io.File;
 @Getter
 @Setter
 public class GuessTheImage extends Question {
-    private File filename;
+    private String filename;
     private String answer;
 
-    public GuessTheImage(File filename, String answer) {
+    public GuessTheImage(String filename, String answer) {
         this.filename = filename;
         this.answer = answer;
     }
