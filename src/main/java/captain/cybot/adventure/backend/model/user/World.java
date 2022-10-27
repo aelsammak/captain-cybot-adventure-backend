@@ -1,6 +1,7 @@
 package captain.cybot.adventure.backend.model.user;
 
-import captain.cybot.adventure.backend.model.user.Level;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "worlds")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -20,8 +22,13 @@ public class World {
     private Long id;
     private String planet;
     private int levelsCompleted;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "world")
+    @JsonManagedReference
     private List<Level> levels;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private User user;
 
     public World(String planet) {
         this.planet = planet;
