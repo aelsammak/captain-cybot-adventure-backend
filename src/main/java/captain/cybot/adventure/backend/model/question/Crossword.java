@@ -16,6 +16,7 @@ public class Crossword extends Question {
     private String[] answers;
 
     public Crossword(String[][] crosswordBlock, String[] hints, String[] answers) {
+        super("CROSSWORD");
         this.crosswordBlock = crosswordBlock;
         this.hints = hints;
         this.answers = answers;

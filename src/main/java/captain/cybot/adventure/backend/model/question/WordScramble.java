@@ -15,6 +15,7 @@ public class WordScramble extends Question {
     private String answer;
 
     public WordScramble(String scrambledWord, String answer) {
+        super("WORD_SCRAMBLE");
         this.scrambledWord = scrambledWord;
         this.answer = answer;
     }

@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import java.io.File;
 
 @Entity
 @NoArgsConstructor
@@ -16,6 +15,7 @@ public class GuessTheImage extends Question {
     private String answer;
 
     public GuessTheImage(String filename, String answer) {
+        super("GUESS_THE_IMAGE");
         this.filename = filename;
         this.answer = answer;
     }

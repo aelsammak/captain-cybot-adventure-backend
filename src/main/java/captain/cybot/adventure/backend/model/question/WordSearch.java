@@ -15,6 +15,7 @@ public class WordSearch extends Question {
     private String[] answer;
 
     public WordSearch(String[][] searchArray, String[] answer) {
+        super("WORD_SEARCH");
         this.searchArray = searchArray;
         this.answer = answer;
     }
