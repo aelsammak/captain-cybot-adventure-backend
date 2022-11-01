@@ -72,14 +72,4 @@ public class UserTests {
         assertEquals(1, user.getWorlds().size());
         assertEquals(world, user.getWorlds().get(0));
     }
-
-    @Test
-    public void defaultCosmetic() {
-        fail("Test not implemented");
-    }
-
-    @Test
-    public void setCosmetic() {
-        fail("Test not implemented");
-    }
 }
