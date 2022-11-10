@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
     private List<World> worlds;
+
+    @ManyToMany(fetch =  FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     private int totalStars;
 
