@@ -9,13 +9,13 @@ public class CosmeticTests {
 
     @Test
     public void setFilename() {
-        Cosmetic cosmetic = new Cosmetic("filename.png", 2);
+        Cosmetic cosmetic = new Cosmetic(1L, "filename.png", 2);
         assertEquals("filename.png", cosmetic.getFileName());
     }
 
     @Test
     public void setUnlockWorld() {
-        Cosmetic cosmetic = new Cosmetic("filename.png", 2);
+        Cosmetic cosmetic = new Cosmetic(1L, "filename.png", 2);
         assertEquals(2, cosmetic.getUnlockWorld());
     }
 }

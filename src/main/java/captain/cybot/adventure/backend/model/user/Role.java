@@ -8,17 +8,16 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cosmetics")
-@NoArgsConstructor
+@Table(name = "roles")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Cosmetic {
+public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String fileName;
-    private int unlockWorld;
 
+    private String name;
 }
