@@ -1,5 +1,7 @@
 package captain.cybot.adventure.backend.controller;
 
+import captain.cybot.adventure.backend.exception.InvalidRoleException;
+import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
 import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.service.UserService;
@@ -31,8 +33,8 @@ public class UserController {
                             .path("/api/v0/users")
                             .toUriString());
             return ResponseEntity.created(uri).body(newUser);
-        } catch (UserAlreadyExistsException uaee) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(uaee.getMessage());
+        } catch (UserAlreadyExistsException | InvalidRoleException | PasswordInvalidException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
