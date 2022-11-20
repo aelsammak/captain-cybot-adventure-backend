@@ -2,8 +2,10 @@ package captain.cybot.adventure.backend.component;
 
 import captain.cybot.adventure.backend.constants.COSMETICS;
 import captain.cybot.adventure.backend.constants.ROLES;
+import captain.cybot.adventure.backend.model.question.Crossword;
 import captain.cybot.adventure.backend.model.user.Cosmetic;
 import captain.cybot.adventure.backend.model.user.Role;
+import captain.cybot.adventure.backend.repository.question.QuestionRepository;
 import captain.cybot.adventure.backend.repository.user.CosmeticRepository;
 import captain.cybot.adventure.backend.repository.user.RoleRepository;
 import lombok.AllArgsConstructor;
@@ -17,11 +19,13 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
     private RoleRepository roleRepository;
     private CosmeticRepository cosmeticRepository;
+    private QuestionRepository questionRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         initDefaultRoles();
         initDefaultCosmetics();
+        initQuestions();
     }
 
     private void initDefaultRoles() {
@@ -68,5 +72,14 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
             world4Shield = new Cosmetic(5L, COSMETICS.WORLD_4_SHIELD.toString(), 4);
             cosmeticRepository.save(world4Shield);
         }
+    }
+
+    private void initQuestions() {
+        // EXAMPLE for the future reference
+//        String[][] crosswordBlock = {{"1", "X", "X"}, {"|", "|", "|"}, {"2", "X", "|"}};
+//        String[] hints = {"Denotes one or more people already mentioned and assumed to be common " +
+//                "knowledge", "perform an action"};
+//        String[] answer = {"the", "do"};
+//        questionRepository.save(new Crossword(crosswordBlock, hints, answer));
     }
 }

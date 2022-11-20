@@ -32,6 +32,6 @@ public class WordSearchTests {
         String[] answer = {"the", "so"};
         WordSearch wordSearch = new WordSearch(searchArray, answer);
 
-        assertEquals(answer, wordSearch.getAnswer());
+        assertEquals(answer, wordSearch.getAnswers());
     }
 }
