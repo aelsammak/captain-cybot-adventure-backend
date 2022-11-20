@@ -59,6 +59,7 @@ public class SecurityConfig {
                     .authorizeRequests( auth -> auth
                             .antMatchers(HttpMethod.POST, "/api/v0/users", "/api/v0/login").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
+                            .antMatchers(HttpMethod.DELETE, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .anyRequest().authenticated()
                     )
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

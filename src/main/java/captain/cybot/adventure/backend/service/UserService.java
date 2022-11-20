@@ -10,4 +10,6 @@ public interface UserService {
     User saveUser(User user) throws UserAlreadyExistsException, InvalidRoleException, PasswordInvalidException;
     User getUser(String username);
     void addRoleToUser(String username, String roleName) throws UsernameNotFoundException, InvalidRoleException;
+
+    void deleteUser(User user);
 }
