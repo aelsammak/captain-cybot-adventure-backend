@@ -43,6 +43,9 @@ public class TokenUtility {
         try {
             DecodedJWT decodedJWT = getDecodedToken(request, response, algorithm);
             String username = getUsernameFromToken(decodedJWT);
+            if (!request.getRequestURI().contains(username)){
+                throw new Exception("User not authorized");
+            }
             String[] roles = getRolesFromToken(decodedJWT);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             stream(roles).forEach(role -> {

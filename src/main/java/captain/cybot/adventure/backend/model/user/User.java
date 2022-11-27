@@ -36,11 +36,11 @@ public class User {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "cosmetic_id", referencedColumnName = "id")
     private Cosmetic cosmetic;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<World> worlds;
 
