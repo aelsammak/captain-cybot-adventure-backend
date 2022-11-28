@@ -1,6 +1,5 @@
 package captain.cybot.adventure.backend.utility;
 
-import captain.cybot.adventure.backend.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -43,7 +42,7 @@ public class TokenUtility {
         try {
             DecodedJWT decodedJWT = getDecodedToken(request, response, algorithm);
             String username = getUsernameFromToken(decodedJWT);
-            if (!request.getRequestURI().contains(username)){
+            if (!request.getRequestURI().contains(username) && request.getRequestURI().contains("/user")){
                 throw new Exception("User not authorized");
             }
             String[] roles = getRolesFromToken(decodedJWT);
@@ -72,24 +71,24 @@ public class TokenUtility {
         return null;
     }
 
+    private DecodedJWT getDecodedToken(String authHeader, Algorithm algorithm) {
+        try {
+            String token = authHeader.substring("Bearer ".length());
+            System.out.println(token);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            return verifier.verify(token);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public String getUsernameFromToken(DecodedJWT decodedJWT) {
         return decodedJWT.getSubject();
     }
 
     public String[] getRolesFromToken(DecodedJWT decodedJWT) {
         return decodedJWT.getClaim("roles").asArray(String.class);
-    }
-
-    public void getUserFromToken(HttpServletRequest request, HttpServletResponse response, UserService userService, Algorithm algorithm) throws IOException {
-        try {
-            DecodedJWT decodedJWT = getDecodedToken(request, response, algorithm);
-            String username = getUsernameFromToken(decodedJWT);
-            captain.cybot.adventure.backend.model.user.User user = userService.getUser(username);
-            response.setContentType("application/json");
-            new ObjectMapper().writeValue(response.getOutputStream(), user);
-        } catch (Exception e) {
-            errorMsg(response, e);
-        }
     }
 
     public static void errorMsg(HttpServletResponse response, Exception e) throws IOException {

@@ -25,9 +25,14 @@ public class Level {
     private int levelNumber;
     private int stars;
 
+    private int incorrectAttempts;
+
     public Level(int levelNumber) {
         this.levelNumber = levelNumber;
         stars = 0;
+        incorrectAttempts = 0;
     }
+
+    public void incrementIncorrectAttempts() {incorrectAttempts++;}
 
 }

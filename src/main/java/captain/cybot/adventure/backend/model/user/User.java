@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@DynamicUpdate
 public class User {
 
     @Id
@@ -42,19 +44,17 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonManagedReference
-    private List<World> worlds;
+    private List<World> worlds = new ArrayList<>();
 
     @ManyToMany(fetch =  FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    private int totalStars;
+    private int totalStars = 0;
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        totalStars = 0;
-        worlds = new ArrayList<>();
     }
 
     public void addWorld(World world) {

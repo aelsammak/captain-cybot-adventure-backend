@@ -1,6 +1,7 @@
 package captain.cybot.adventure.backend.model.question;
 
 import captain.cybot.adventure.backend.model.user.Level;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,8 +24,11 @@ public class Question {
 
     private String type;
 
+
     public Question(String type) {
         this.type = type;
     }
 
+    @JsonIgnore
+    public String[] getQuestionAnswers() {return null;}
 }
