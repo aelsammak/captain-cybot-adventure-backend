@@ -28,4 +28,8 @@ public interface UserService {
     int getIncorrectAttempts(String username, String planet, int levelNumber);
 
     UserStars getUserStars(String username);
+
+    void ChangePassword(String username, String password) throws UsernameNotFoundException;
+
+    String SetRandomPassword(String username) throws UsernameNotFoundException;
 }

@@ -7,6 +7,7 @@ import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
 import captain.cybot.adventure.backend.model.user.*;
 import captain.cybot.adventure.backend.repository.user.*;
+import captain.cybot.adventure.backend.utility.StringUtility;
 import captain.cybot.adventure.backend.validator.PasswordConstraintValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -167,7 +168,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     AllowedQuestions allowedQuestion = new AllowedQuestions();
                     allowedQuestion.setPlanet(user.getWorlds().get(i).getPlanet());
                     allowedQuestion.setQuestionNumber(j + 1);
-                    System.out.println("Added: " + user.getWorlds().get(i).getPlanet() + " " + Integer.toString(j + 1));
                     res.add(allowedQuestion);
                 }
                 if (user.getWorlds().get(i).getLevelsCompleted() + 1 != user.getWorlds().get(i).getLevels().size()) {
@@ -268,5 +268,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         res.setTotalStars(user.getTotalStars());
 
         return res;
+    }
+
+    public void ChangePassword(String username, String password) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        user.setPassword(password);
+        userRepository.save(user);
+    }
+
+    public String SetRandomPassword(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        int length = 20;
+        String password = StringUtility.GenerateRandomString(length);
+        user.setPassword(password);
+        userRepository.save(user);
+        return password;
     }
 }
