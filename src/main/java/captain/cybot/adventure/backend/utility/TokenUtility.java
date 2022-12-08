@@ -74,7 +74,6 @@ public class TokenUtility {
     private DecodedJWT getDecodedToken(String authHeader, Algorithm algorithm) {
         try {
             String token = authHeader.substring("Bearer ".length());
-            System.out.println(token);
             JWTVerifier verifier = JWT.require(algorithm).build();
             return verifier.verify(token);
         } catch (Exception e) {

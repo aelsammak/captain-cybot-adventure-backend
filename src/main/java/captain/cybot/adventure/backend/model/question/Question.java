@@ -24,7 +24,6 @@ public class Question {
 
     private String type;
 
-
     public Question(String type) {
         this.type = type;
     }

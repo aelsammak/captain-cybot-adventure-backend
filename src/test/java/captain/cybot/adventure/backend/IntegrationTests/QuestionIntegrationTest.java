@@ -90,7 +90,6 @@ class QuestionIntegrationTest {
                     .content(userSignIn)).andReturn();
             tmpToken = "Bearer "+(new JSONObject(res.getResponse().getContentAsString())).getString("access_token");
         } catch (Exception e) {}
-        System.out.println(access_token);
 
         try {
             mvc.perform(delete(USER_URL +"/"+ USER_NAME).header("Authorization", tmpToken));
@@ -204,8 +203,6 @@ class QuestionIntegrationTest {
                 .content(postBody));
          int stars = getStars(USER_NAME,"EARTH",1,access_token);
          int totalStars = getTotalStars(USER_NAME, access_token);
-
-         System.out.println(stars + " == 3 = " + (stars==3));
 
         assertEquals(3, stars, "Level stars expected 3 but got "+stars);
         assertEquals(3, totalStars, "Total stars expected 3 but got "+totalStars);

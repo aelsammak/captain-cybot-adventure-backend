@@ -160,7 +160,6 @@ class UserIntegrationTest {
     @Order(8)
     void getUserValidToken() throws Exception {
         String access_token = obtainAccessToken(USER_NAME, USER_PASS);
-        System.out.println(access_token);
         mvc.perform(get(CONTROLLER_URL +"/"+ USER_NAME).header("Authorization", access_token))
                     .andExpect(status().isOk());
     }
@@ -169,7 +168,6 @@ class UserIntegrationTest {
     @Order(9)
     void getUserInvalidToken() throws Exception {
         String access_token = obtainDummyAccessToken();
-        System.out.println(access_token);
         mvc.perform(get(CONTROLLER_URL +"/"+ USER_NAME).header("Authorization", access_token))
                 .andExpect(status().isForbidden());
     }
