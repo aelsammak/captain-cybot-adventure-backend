@@ -60,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/stars/{username}")
+    @GetMapping("/{username}/stars")
     public ResponseEntity<?> getStars(@PathVariable("username") String username) {
         UserStars userStars = userService.getUserStars(username);
         if (userStars != null) {

@@ -54,16 +54,20 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean checkQuestion(String username, String planet, int questionNumber, String[] answers) throws PrerequsiteNotMetException {
         String[] questionAnswers = getQuestion(username, planet, questionNumber).getQuestionAnswers();
+        String[] correctAnswers = new String[questionAnswers.length];
+        for (int i = 0; i < questionAnswers.length; i++) {
+            correctAnswers[i] = questionAnswers[i];
+        }
         boolean isCorrect = true;
 
-        Arrays.sort(questionAnswers);
+        Arrays.sort(correctAnswers);
         Arrays.sort(answers);
 
-        if (questionAnswers.length != answers.length) {
+        if (correctAnswers.length != answers.length) {
             isCorrect = false;
         } else {
             for (int i = 0; i < answers.length; i++) {
-                if (!questionAnswers[i].equalsIgnoreCase(answers[i])) {
+                if (!correctAnswers[i].equalsIgnoreCase(answers[i])) {
                     isCorrect = false;
                     break;
                 }

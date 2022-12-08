@@ -1,5 +1,6 @@
 package captain.cybot.adventure.backend.model.question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class WordSearch extends Question {
             name = "answers",
             columnDefinition = "text[]"
     )
+    @JsonIgnore
     private String[] answers;
 
     public WordSearch(String[][] searchArray, String[] answers) {

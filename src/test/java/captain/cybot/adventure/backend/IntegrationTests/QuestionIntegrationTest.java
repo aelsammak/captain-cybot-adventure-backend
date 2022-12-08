@@ -57,7 +57,7 @@ class QuestionIntegrationTest {
     }
 
     private int getTotalStars(String username, String token) throws Exception {
-        MvcResult res = mvc.perform(get(USER_URL + "/stars/"+username)
+        MvcResult res = mvc.perform(get(USER_URL +"/"+username + "/stars")
                 .header("Authorization", token)).andReturn();
         String starsStr = (new JSONObject(res.getResponse().getContentAsString()))
                 .getString("totalStars");
@@ -67,7 +67,7 @@ class QuestionIntegrationTest {
     }
 
     private int getStars(String username, String planet, int levelNumber, String token) throws Exception {
-        MvcResult res = mvc.perform(get(USER_URL + "/stars/"+username)
+        MvcResult res = mvc.perform(get(USER_URL +"/"+username+ "/stars")
                 .header("Authorization", token)).andReturn();
         String starsStr = (new JSONObject(res.getResponse().getContentAsString()))
                 .getString(planet.toLowerCase()).replace("[", "").replace("]","");

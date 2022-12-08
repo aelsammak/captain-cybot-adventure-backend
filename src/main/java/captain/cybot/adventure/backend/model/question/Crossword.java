@@ -1,5 +1,6 @@
 package captain.cybot.adventure.backend.model.question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,16 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
 @Entity
 @NoArgsConstructor
@@ -28,6 +36,7 @@ public class Crossword extends Question {
             name = "crossword_block",
             columnDefinition = "text[][]"
     )
+    @JsonIgnore
     private String[][] crosswordBlock;
 
     @Type(type = "string-array")
@@ -35,6 +44,7 @@ public class Crossword extends Question {
             name = "hints",
             columnDefinition = "text[]"
     )
+    @JsonIgnore
     private String[] hints;
 
     @Type(type = "string-array")
@@ -42,6 +52,7 @@ public class Crossword extends Question {
             name = "answers",
             columnDefinition = "text[]"
     )
+    @JsonIgnore
     private String[] answers;
 
     public Crossword(String[][] crosswordBlock, String[] hints, String[] answers) {
@@ -113,7 +124,7 @@ public class Crossword extends Question {
                     JSONObject tmpObj = new JSONObject();
                     tmpObj.put("clue", hints[cellValue-1]);
                     String answerStr = answers[cellValue-1];
-                    tmpObj.put("answer", answerStr);
+                    tmpObj.put("answer", answerStr.toUpperCase());
                     tmpObj.put("row", i);
                     tmpObj.put("col", j);
                     if (dir.equals("across")) {
