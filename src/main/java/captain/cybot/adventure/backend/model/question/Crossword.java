@@ -1,31 +1,47 @@
 package captain.cybot.adventure.backend.model.question;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
-import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import static org.hibernate.internal.util.collections.ArrayHelper.toList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@TypeDefs({
+        @TypeDef(
+                name = "string-array",
+                typeClass = StringArrayType.class
+        )
+})
 public class Crossword extends Question {
 
-    @JsonIgnore
+    @Type(type = "string-array")
+    @Column(
+            name = "crossword_block",
+            columnDefinition = "text[][]"
+    )
     private String[][] crosswordBlock;
-    @JsonIgnore
+
+    @Type(type = "string-array")
+    @Column(
+            name = "hints",
+            columnDefinition = "text[]"
+    )
     private String[] hints;
 
-    @JsonIgnore
+    @Type(type = "string-array")
+    @Column(
+            name = "answers",
+            columnDefinition = "text[]"
+    )
     private String[] answers;
 
     public Crossword(String[][] crosswordBlock, String[] hints, String[] answers) {
