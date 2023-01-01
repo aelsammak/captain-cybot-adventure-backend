@@ -111,34 +111,6 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
         }
 
         if (w1Q3 == null) {
-            String[][] crosswordBlock = {
-                    {"|","|","|","|","|","|","|","|","|","1","|","|"},
-                    {"|","|","|","|","|","2","X","X","X","X","X","|"},
-                    {"|","|","|","|","|","|","|","|","|","X","|","3"},
-                    {"|","|","|","|","|","|","|","4","|","X","|","X"},
-                    {"5","X","X","X","X","X","X","X","|","X","|","X"},
-                    {"|","|","|","|","|","|","|","6","X","X","X","X"},
-                    {"|","7","X","X","X","X","X","X","|","X","|","X"},
-                    {"|","|","|","|","|","|","|","X","|","X","|","X"},
-                    {"|","|","8","X","X","X","X","X","X","|","|","X"},
-                    {"|","|","|","|","|","|","|","X","|","|","|","X"},
-                    {"|","|","|","|","|","|","|","|","|","|","|","X"}
-            };
-            String[] hints = {"The programs that tell the hardware what to do.",
-                              "A common anti-virus software.",
-                              "Make an exact copy of; reproduce.",
-                              "The first ever computer virus.",
-                              "A device for working with information.",
-                              "A message sent through the internet.",
-                              "Software that may harm your computer.",
-                              "Malicious self-reproducing programs that change how a computer works."};
-            String[] answers = {"software", "norton", "replicate", "creeper", "computer", "email", "malware", "viruses"};
-            Crossword w1Q3Question = crosswordRepository.save(new Crossword(crosswordBlock, hints, answers));
-            w1Q3 = new QuestionOrder(w1Q3Question, 3, "EARTH");
-            questionOrderRepository.save(w1Q3);
-        }
-
-        if (w1Q4 == null) {
             String[][] searchBlock = {
                     {"P","A","N","J","H","J","F","C","I","X"},
                     {"R","R","N","S","Y","K","N","M","L","Y"},
@@ -152,7 +124,35 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
                     {"K","M","A","L","W","A","R","E","E","N"}
             };
             String[] answers = {"protection", "antivirus", "virus", "replicate", "slow", "malware", "creeper", "damage"};
-            WordSearch w1Q4Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
+            WordSearch w1Q3Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
+            w1Q3 = new QuestionOrder(w1Q3Question, 3, "EARTH");
+            questionOrderRepository.save(w1Q3);
+        }
+
+        if (w1Q4 == null) {
+            String[][] crosswordBlock = {
+                    {"|", "|", "|", "|", "|", "|", "|", "|", "|", "1", "|", "|"},
+                    {"|", "|", "|", "|", "|", "2", "X", "X", "X", "X", "X", "|"},
+                    {"|", "|", "|", "|", "|", "|", "|", "|", "|", "X", "|", "3"},
+                    {"|", "|", "|", "|", "|", "|", "|", "4", "|", "X", "|", "X"},
+                    {"5", "X", "X", "X", "X", "X", "X", "X", "|", "X", "|", "X"},
+                    {"|", "|", "|", "|", "|", "|", "|", "6", "X", "X", "X", "X"},
+                    {"|", "7", "X", "X", "X", "X", "X", "X", "|", "X", "|", "X"},
+                    {"|", "|", "|", "|", "|", "|", "|", "X", "|", "X", "|", "X"},
+                    {"|", "|", "8", "X", "X", "X", "X", "X", "X", "|", "|", "X"},
+                    {"|", "|", "|", "|", "|", "|", "|", "X", "|", "|", "|", "X"},
+                    {"|", "|", "|", "|", "|", "|", "|", "|", "|", "|", "|", "X"}
+            };
+            String[] hints = {"The programs that tell the hardware what to do.",
+                    "A common anti-virus software.",
+                    "Make an exact copy of; reproduce.",
+                    "The first ever computer virus.",
+                    "A device for working with information.",
+                    "A message sent through the internet.",
+                    "Software that may harm your computer.",
+                    "Malicious self-reproducing programs that change how a computer works."};
+            String[] answers = {"software", "norton", "replicate", "creeper", "computer", "email", "malware", "viruses"};
+            Crossword w1Q4Question = crosswordRepository.save(new Crossword(crosswordBlock, hints, answers));
             w1Q4 = new QuestionOrder(w1Q4Question, 4, "EARTH");
             questionOrderRepository.save(w1Q4);
         }
@@ -160,6 +160,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
 
         if (w2Q1 == null) {
+            /* TODO: Change to real question */
             WordScramble w2Q1Question =  wordScrambleRepository.save(new WordScramble("RRECEPE2",
                     "CREEPER2"));
             w2Q1 = new QuestionOrder(w2Q1Question, 1, "MARS");

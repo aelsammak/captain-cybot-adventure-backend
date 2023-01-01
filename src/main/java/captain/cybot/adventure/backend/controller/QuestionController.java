@@ -1,6 +1,6 @@
 package captain.cybot.adventure.backend.controller;
 
-import captain.cybot.adventure.backend.exception.PrerequsiteNotMetException;
+import captain.cybot.adventure.backend.exception.PrerequisiteNotMetException;
 import captain.cybot.adventure.backend.model.question.*;
 import captain.cybot.adventure.backend.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class QuestionController {
             Question question = questionService.getQuestion(username, planet, questionNumber);
 
             return ResponseEntity.ok().body(question);
-        } catch (PrerequsiteNotMetException e) {
+        } catch (PrerequisiteNotMetException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -54,7 +54,7 @@ public class QuestionController {
                             .path("/api/v0/questions")
                             .toUriString());
             return ResponseEntity.created(uri).body(answer);
-        } catch (PrerequsiteNotMetException e) {
+        } catch (PrerequisiteNotMetException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -1,10 +1,10 @@
 package captain.cybot.adventure.backend.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -19,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@DynamicUpdate
 public class User {
 
     @Id
@@ -36,6 +35,7 @@ public class User {
 
 
     @NotBlank(message = "Password is required")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @OneToOne(fetch=FetchType.EAGER)
@@ -64,5 +64,4 @@ public class User {
     public void addStars(int stars) {
         totalStars += stars;
     }
-
 }

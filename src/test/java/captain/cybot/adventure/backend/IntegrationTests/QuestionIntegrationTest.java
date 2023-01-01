@@ -268,7 +268,7 @@ class QuestionIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
-        String w1Q3 = jsonObj.toString();
+        String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
         answerArr.put("protection");
@@ -280,7 +280,7 @@ class QuestionIntegrationTest {
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
-        String w1Q4 = jsonObj.toString();
+        String w1Q3 = jsonObj.toString();
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
                         .header("Authorization", access_token))

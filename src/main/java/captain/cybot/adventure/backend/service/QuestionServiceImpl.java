@@ -1,6 +1,6 @@
 package captain.cybot.adventure.backend.service;
 
-import captain.cybot.adventure.backend.exception.PrerequsiteNotMetException;
+import captain.cybot.adventure.backend.exception.PrerequisiteNotMetException;
 import captain.cybot.adventure.backend.model.question.*;
 import captain.cybot.adventure.backend.model.user.AllowedQuestions;
 import captain.cybot.adventure.backend.repository.question.*;
@@ -23,7 +23,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionOrderRepository questionOrderRepository;
 
     @Override
-    public Question getQuestion(String username, String planet, int questionNumber) throws PrerequsiteNotMetException {
+    public Question getQuestion(String username, String planet, int questionNumber) throws PrerequisiteNotMetException {
         QuestionOrder questionOrder = questionOrderRepository.findByPlanetAndQuestionNumber(planet, questionNumber);
 
         if (questionOrder == null)
@@ -43,7 +43,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         if (!isAllowed) {
-            throw new PrerequsiteNotMetException("User: " + username + " does not have access to question world: " +
+            throw new PrerequisiteNotMetException("User: " + username + " does not have access to question world: " +
                     planet + " number: " + questionNumber);
         }
 
@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public boolean checkQuestion(String username, String planet, int questionNumber, String[] answers) throws PrerequsiteNotMetException {
+    public boolean checkQuestion(String username, String planet, int questionNumber, String[] answers) throws PrerequisiteNotMetException {
         String[] questionAnswers = getQuestion(username, planet, questionNumber).getQuestionAnswers();
         String[] correctAnswers = new String[questionAnswers.length];
         for (int i = 0; i < questionAnswers.length; i++) {
