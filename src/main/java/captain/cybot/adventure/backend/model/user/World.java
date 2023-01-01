@@ -22,7 +22,7 @@ public class World {
     private Long id;
     private String planet;
     private int levelsCompleted;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "world")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "world", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Level> levels;
 

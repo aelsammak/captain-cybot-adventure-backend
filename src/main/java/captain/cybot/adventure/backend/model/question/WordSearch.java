@@ -42,4 +42,9 @@ public class WordSearch extends Question {
         this.searchArray = searchArray;
         this.answers = answers;
     }
+
+    @Override
+    public String[] getQuestionAnswers() {
+        return  this.answers;
+    }
 }

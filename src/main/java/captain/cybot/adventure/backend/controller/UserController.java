@@ -4,6 +4,7 @@ import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
 import captain.cybot.adventure.backend.model.user.User;
+import captain.cybot.adventure.backend.model.user.UserStars;
 import captain.cybot.adventure.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,4 +60,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{username}/stars")
+    public ResponseEntity<?> getStars(@PathVariable("username") String username) {
+        UserStars userStars = userService.getUserStars(username);
+        if (userStars != null) {
+            return ResponseEntity.ok().body(userStars);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no user found with username: " + username);
+        }
+    }
 }

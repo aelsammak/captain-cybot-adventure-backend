@@ -1,6 +1,7 @@
 package captain.cybot.adventure.backend.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class User {
 
 
     @NotBlank(message = "Password is required")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @OneToOne(fetch=FetchType.EAGER)
@@ -42,19 +44,17 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonManagedReference
-    private List<World> worlds;
+    private List<World> worlds = new ArrayList<>();
 
     @ManyToMany(fetch =  FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    private int totalStars;
+    private int totalStars = 0;
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        totalStars = 0;
-        worlds = new ArrayList<>();
     }
 
     public void addWorld(World world) {
@@ -64,5 +64,4 @@ public class User {
     public void addStars(int stars) {
         totalStars += stars;
     }
-
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuestionOrderRepository extends JpaRepository<QuestionOrder, Long> {
+
+    QuestionOrder findByPlanetAndQuestionNumber(String planet, int questionNumber);
 }

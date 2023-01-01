@@ -58,7 +58,8 @@ public class SecurityConfig {
                     .disable()
                     .authorizeRequests( auth -> auth
                             .antMatchers(HttpMethod.POST, "/api/v0/users", "/api/v0/login").permitAll()
-                            .antMatchers(HttpMethod.GET, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
+                            .antMatchers(HttpMethod.POST, "/api/v0/questions", "/api/v0/questions/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
+                            .antMatchers(HttpMethod.GET, "/api/v0/users/**","/api/v0/questions").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .antMatchers(HttpMethod.DELETE, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .anyRequest().authenticated()
                     )
