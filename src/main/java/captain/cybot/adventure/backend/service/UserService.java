@@ -32,4 +32,6 @@ public interface UserService {
     void ChangePassword(String username, String password) throws UsernameNotFoundException;
 
     String SetRandomPassword(String username) throws UsernameNotFoundException;
+
+    void setQuizScore(String username, String planet, int score);
 }

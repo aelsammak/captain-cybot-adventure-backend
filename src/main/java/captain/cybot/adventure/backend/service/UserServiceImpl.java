@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void incrementLevelsCompleted(String username, String planet) {
         User user = userRepository.findByUsername(username);
         World world = worldRepository.findByPlanetAndUser(planet, user);
-        if (world != null && ((world.getLevelsCompleted() + 1) < world.getLevels().size())) {
+        if (world != null && (world.getLevelsCompleted() < world.getLevels().size())) {
             world.incrementLevelsCompleted();
             worldRepository.save(world);
         }
@@ -283,5 +283,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(password);
         userRepository.save(user);
         return password;
+    }
+
+    @Override
+    public void setQuizScore(String username, String planet, int score) {
+        User user = userRepository.findByUsername(username);
+        World world = worldRepository.findByPlanetAndUser(planet, user);
+        if (world != null) {
+            world.setQuizScore(score);
+            worldRepository.save(world);
+        }
     }
 }
