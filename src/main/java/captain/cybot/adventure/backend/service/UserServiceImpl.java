@@ -213,11 +213,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (stars > level.getStars()) {
                 user.addStars(stars - level.getStars());
                 userRepository.save(user);
-
-                level.setIncorrectAttempts(0);
                 level.setStars(stars);
-                levelRepository.save(level);
             }
+            level.setIncorrectAttempts(0);
+            levelRepository.save(level);
         }
     }
 

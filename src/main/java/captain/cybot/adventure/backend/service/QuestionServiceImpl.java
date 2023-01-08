@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public boolean checkQuestion(String username, String planet, int questionNumber, String[] answers) throws PrerequisiteNotMetException {
+    public QuestionAnswer checkQuestion(String username, String planet, int questionNumber, String[] answers, QuestionAnswer ansObj) throws PrerequisiteNotMetException {
         String[] questionAnswers = getQuestion(username, planet, questionNumber).getQuestionAnswers();
         String[] correctAnswers = new String[questionAnswers.length];
         for (int i = 0; i < questionAnswers.length; i++) {
@@ -77,6 +77,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (isCorrect) {
             userService.incrementLevelsCompleted(username, planet);
             int incorrectResponses = userService.getIncorrectAttempts(username, planet, questionNumber);
+            System.out.println(3 - incorrectResponses);
             int stars = 3 - incorrectResponses;
             if (stars <= 0) {
                 stars = 1;
@@ -84,12 +85,33 @@ public class QuestionServiceImpl implements QuestionService {
             if (stars > 3) {
                 stars = 3;
             }
+            System.out.println(3 - incorrectResponses);
             userService.updateStars(username, planet, questionNumber, stars);
+            ansObj.setCorrect(true);
 
         } else {
             userService.incrementIncorrectAttempts(username, planet, questionNumber);
-            return false;
+            ansObj.setCorrect(false);
         }
-        return true;
+
+
+        switch (planet) {
+            case "EARTH":
+                ansObj.setStars(userService.getUserStars(username).getEARTH().get(questionNumber-1));
+                break;
+            case "MARS":
+                ansObj.setStars(userService.getUserStars(username).getMARS().get(questionNumber-1));
+                break;
+            case "NEPTUNE":
+                ansObj.setStars(userService.getUserStars(username).getNEPTUNE().get(questionNumber-1));
+                break;
+            case "JUPITER":
+                ansObj.setStars(userService.getUserStars(username).getJUPITER().get(questionNumber-1));
+                break;
+        }
+
+        return ansObj;
+
+
     }
 }

@@ -12,4 +12,6 @@ public class QuestionAnswer {
     private String[] answers;
 
     private boolean isCorrect;
+
+    private int stars;
 }

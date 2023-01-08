@@ -44,16 +44,14 @@ public class QuestionController {
                                  @Valid @RequestBody QuestionAnswer answer) {
         try {
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            boolean isCorrect = questionService.checkQuestion(username, planet, questionNumber, answer.getAnswers());
-
-            answer.setCorrect(isCorrect);
+            QuestionAnswer ansObj = questionService.checkQuestion(username, planet, questionNumber, answer.getAnswers(), answer);
 
             URI uri = URI.create(
                     ServletUriComponentsBuilder
                             .fromCurrentContextPath()
                             .path("/api/v0/questions")
                             .toUriString());
-            return ResponseEntity.created(uri).body(answer);
+            return ResponseEntity.created(uri).body(ansObj);
         } catch (PrerequisiteNotMetException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
