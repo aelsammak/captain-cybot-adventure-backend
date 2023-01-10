@@ -293,4 +293,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             worldRepository.save(world);
         }
     }
+
+    @Override
+    public void updateCosmetic(String username, int unlockWorld) {
+        User user = userRepository.findByUsername(username);
+        Cosmetic cosmetic = cosmeticRepository.findByUnlockWorld(unlockWorld);
+
+        if (user != null && cosmetic != null) {
+            user.setCosmetic(cosmetic);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+    }
 }

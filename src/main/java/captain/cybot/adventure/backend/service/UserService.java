@@ -34,4 +34,6 @@ public interface UserService {
     String SetRandomPassword(String username) throws UsernameNotFoundException;
 
     void setQuizScore(String username, String planet, int score);
+
+    void updateCosmetic(String username, int unlockWorld) throws UsernameNotFoundException;
 }
