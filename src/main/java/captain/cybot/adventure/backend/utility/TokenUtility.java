@@ -1,5 +1,6 @@
 package captain.cybot.adventure.backend.utility;
 
+import captain.cybot.adventure.backend.constants.ROLES;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -42,10 +43,18 @@ public class TokenUtility {
         try {
             DecodedJWT decodedJWT = getDecodedToken(request, response, algorithm);
             String username = getUsernameFromToken(decodedJWT);
-            if (!request.getRequestURI().contains(username) && request.getRequestURI().contains("/user")){
-                throw new Exception("User not authorized");
-            }
             String[] roles = getRolesFromToken(decodedJWT);
+            boolean isAdmin = false;
+            for (String role : roles) {
+                if (role.equals(ROLES.ROLE_ADMIN.toString())) {
+                    isAdmin=true;
+                }
+            }
+            if (!isAdmin) {
+                if (!request.getRequestURI().contains(username) && request.getRequestURI().contains("/user")) {
+                    throw new Exception("User not authorized");
+                }
+            }
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             stream(roles).forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role));

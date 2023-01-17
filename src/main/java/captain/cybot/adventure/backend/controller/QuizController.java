@@ -43,10 +43,6 @@ public class QuizController {
     public ResponseEntity<?> post(@RequestParam(name = "planet") String planet,
                                   @Valid @RequestBody QuizAnswers answers) {
         try {
-            for (QuizQuestionAnswer ans : answers.getAnswers()) {
-                System.out.println(ans.getQuestionNumber());
-                System.out.println(ans.getAnswer());
-            }
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             int score = quizService.checkQuiz(username, planet, answers.getAnswers());
 

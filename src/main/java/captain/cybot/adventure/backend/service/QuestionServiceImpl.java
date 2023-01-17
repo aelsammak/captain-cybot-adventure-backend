@@ -1,8 +1,10 @@
 package captain.cybot.adventure.backend.service;
 
+import captain.cybot.adventure.backend.constants.ROLES;
 import captain.cybot.adventure.backend.exception.PrerequisiteNotMetException;
 import captain.cybot.adventure.backend.model.question.*;
 import captain.cybot.adventure.backend.model.user.AllowedQuestions;
+import captain.cybot.adventure.backend.model.user.Role;
 import captain.cybot.adventure.backend.repository.question.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,12 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
 
+        for (Role role : userService.getUser(username).getRoles()) {
+            if (role.getName().equals(ROLES.ROLE_ADMIN.toString())) {
+                isAllowed = true;
+            }
+        }
+
         if (!isAllowed) {
             throw new PrerequisiteNotMetException("User: " + username + " does not have access to question world: " +
                     planet + " number: " + questionNumber);
@@ -75,9 +83,10 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         if (isCorrect) {
-            userService.incrementLevelsCompleted(username, planet);
+            if (userService.getLevelsCompleted(username, planet) < questionNumber) {
+                userService.incrementLevelsCompleted(username, planet);
+            }
             int incorrectResponses = userService.getIncorrectAttempts(username, planet, questionNumber);
-            System.out.println(3 - incorrectResponses);
             int stars = 3 - incorrectResponses;
             if (stars <= 0) {
                 stars = 1;
@@ -85,7 +94,6 @@ public class QuestionServiceImpl implements QuestionService {
             if (stars > 3) {
                 stars = 3;
             }
-            System.out.println(3 - incorrectResponses);
             userService.updateStars(username, planet, questionNumber, stars);
             ansObj.setCorrect(true);
 

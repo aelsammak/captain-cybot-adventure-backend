@@ -32,6 +32,7 @@ class QuestionIntegrationTest {
     private final static String USER_URL = "/api/v0/users";
     private final static String LOGIN_URL = "/api/v0/login";
     private final static String QUESTION_URL = "/api/v0/questions";
+    private final static String QUIZ_URL = "/api/v0/quizzes";
 
 
     @Autowired
@@ -281,6 +282,18 @@ class QuestionIntegrationTest {
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
         String w1Q3 = jsonObj.toString();
+        jsonObj = new JSONObject();
+        answerArr = new JSONArray();
+        JSONObject tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Software that may harm your computer");
+        tmpJsonObj.put("questionNumber", 1);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Computer runs very slowly");
+        tmpJsonObj.put("questionNumber", 2);
+        answerArr.put(tmpJsonObj);
+        jsonObj.put("answers", answerArr);
+        String quizAnswers = jsonObj.toString();
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
                         .header("Authorization", access_token))
@@ -302,6 +315,12 @@ class QuestionIntegrationTest {
                 .header("Authorization", access_token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(w1Q4));
+
+
+
+        mvc.perform(post(QUIZ_URL +"?planet=EARTH").header("Authorization", access_token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(quizAnswers));
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
                         .header("Authorization", access_token))

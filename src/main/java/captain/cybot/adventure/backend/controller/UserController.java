@@ -86,7 +86,6 @@ public class UserController {
     public ResponseEntity<?> updateCosmetic(@PathVariable("username") String username,
                                             @Valid @RequestBody Cosmetic cosmetic) {
         try {
-            System.out.println(cosmetic.toString());
             userService.updateCosmetic(username, cosmetic.getUnlockWorld());
             return ResponseEntity.ok().body(userService.getUser(username).getCosmetic());
         } catch (Exception e) {
