@@ -60,6 +60,7 @@ public class SecurityConfig {
                             .antMatchers(HttpMethod.POST, "/api/v0/users", "/api/v0/login").permitAll()
                             .antMatchers(HttpMethod.POST, "/api/v0/questions", "/api/v0/questions/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .antMatchers(HttpMethod.GET, "/api/v0/users/**","/api/v0/questions").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
+                            .antMatchers(HttpMethod.PATCH, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .antMatchers(HttpMethod.DELETE, "/api/v0/users/**").hasAnyAuthority(ROLES.ROLE_USER.toString(), ROLES.ROLE_ADMIN.toString())
                             .anyRequest().authenticated()
                     )
@@ -74,7 +75,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("POST", "GET"));
+        configuration.setAllowedMethods(List.of("POST", "GET", "PATCH"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

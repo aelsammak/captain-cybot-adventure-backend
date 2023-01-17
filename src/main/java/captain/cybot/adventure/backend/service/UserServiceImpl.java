@@ -2,6 +2,7 @@ package captain.cybot.adventure.backend.service;
 
 import captain.cybot.adventure.backend.constants.COSMETICS;
 import captain.cybot.adventure.backend.constants.ROLES;
+import captain.cybot.adventure.backend.exception.CosmeticNotFoundException;
 import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
@@ -170,7 +171,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     allowedQuestion.setQuestionNumber(j + 1);
                     res.add(allowedQuestion);
                 }
-                if (user.getWorlds().get(i).getLevelsCompleted() + 1 != user.getWorlds().get(i).getLevels().size()) {
+                if (user.getWorlds().get(i).getLevelsCompleted() + 1 < user.getWorlds().get(i).getLevels().size()) {
                     /* World not completed so do not allow other worlds to be accessed */
                     endFound = true;
                     break;
@@ -187,10 +188,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void incrementLevelsCompleted(String username, String planet) {
         User user = userRepository.findByUsername(username);
         World world = worldRepository.findByPlanetAndUser(planet, user);
-        if (world != null && ((world.getLevelsCompleted() + 1) < world.getLevels().size())) {
+        if (world != null && (world.getLevelsCompleted() < world.getLevels().size())) {
             world.incrementLevelsCompleted();
             worldRepository.save(world);
         }
+    }
+
+    @Override
+    public int getLevelsCompleted(String username, String planet) {
+        User user = userRepository.findByUsername(username);
+        World world = worldRepository.findByPlanetAndUser(planet, user);
+        if (world != null) {
+            return world.getLevelsCompleted();
+        }
+        return 0;
     }
 
     @Override
@@ -213,11 +224,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (stars > level.getStars()) {
                 user.addStars(stars - level.getStars());
                 userRepository.save(user);
-
-                level.setIncorrectAttempts(0);
                 level.setStars(stars);
-                levelRepository.save(level);
             }
+            level.setIncorrectAttempts(0);
+            levelRepository.save(level);
         }
     }
 
@@ -283,5 +293,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(password);
         userRepository.save(user);
         return password;
+    }
+
+    @Override
+    public void setQuizScore(String username, String planet, int score) {
+        User user = userRepository.findByUsername(username);
+        World world = worldRepository.findByPlanetAndUser(planet, user);
+        if (world != null) {
+            world.setQuizScore(score);
+            worldRepository.save(world);
+        }
+    }
+
+    @Override
+    public void updateCosmetic(String username, int unlockWorld) throws Exception {
+        User user = userRepository.findByUsername(username);
+        Cosmetic cosmetic = cosmeticRepository.findByUnlockWorld(unlockWorld);
+
+        if (user != null) {
+            if (cosmetic != null) {
+                user.setCosmetic(cosmetic);
+                userRepository.save(user);
+            } else {
+                throw new CosmeticNotFoundException("Cosmetic not found with unlock world: " + unlockWorld);
+            }
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
     }
 }

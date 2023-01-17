@@ -1,4 +1,4 @@
-package captain.cybot.adventure.backend.model.question;
+package captain.cybot.adventure.backend.model.quiz;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -8,12 +8,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class QuestionAnswer {
+public class QuizAnswers {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String[] answers;
+    private QuizQuestionAnswer[] answers;
 
-    private boolean isCorrect;
-
-    private int stars;
+    private int score;
 }

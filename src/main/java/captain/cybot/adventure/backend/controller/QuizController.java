@@ -1,8 +1,10 @@
 package captain.cybot.adventure.backend.controller;
 
 import captain.cybot.adventure.backend.exception.PrerequisiteNotMetException;
-import captain.cybot.adventure.backend.model.question.*;
-import captain.cybot.adventure.backend.service.QuestionService;
+import captain.cybot.adventure.backend.model.quiz.QuizAnswers;
+import captain.cybot.adventure.backend.model.quiz.QuizQuestionAnswer;
+import captain.cybot.adventure.backend.model.quiz.Quiz;
+import captain.cybot.adventure.backend.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,22 +17,21 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v0/questions")
+@RequestMapping("/api/v0/quizzes")
 @RequiredArgsConstructor
 @Slf4j
-public class QuestionController {
+public class QuizController {
 
-    private final QuestionService questionService;
+    private final QuizService quizService;
 
     @GetMapping("")
-    public ResponseEntity<?> get(@RequestParam(name = "planet") String planet,
-                                 @RequestParam(name="questionNumber") int questionNumber) {
+    public ResponseEntity<?> get(@RequestParam(name = "planet") String planet) {
         try {
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            Question question = questionService.getQuestion(username, planet, questionNumber);
+            Quiz quiz = quizService.getQuiz(username, planet);
 
-            return ResponseEntity.ok().body(question);
+            return ResponseEntity.ok().body(quiz);
         } catch (PrerequisiteNotMetException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
@@ -40,23 +41,23 @@ public class QuestionController {
 
     @PostMapping("")
     public ResponseEntity<?> post(@RequestParam(name = "planet") String planet,
-                                 @RequestParam(name="questionNumber") int questionNumber,
-                                 @Valid @RequestBody QuestionAnswer answer) {
+                                  @Valid @RequestBody QuizAnswers answers) {
         try {
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            QuestionAnswer ansObj = questionService.checkQuestion(username, planet, questionNumber, answer.getAnswers(), answer);
+            int score = quizService.checkQuiz(username, planet, answers.getAnswers());
+
+            answers.setScore(score);
 
             URI uri = URI.create(
                     ServletUriComponentsBuilder
                             .fromCurrentContextPath()
-                            .path("/api/v0/questions")
+                            .path("/api/v0/quizzes")
                             .toUriString());
-            return ResponseEntity.created(uri).body(ansObj);
+            return ResponseEntity.created(uri).body(answers);
         } catch (PrerequisiteNotMetException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

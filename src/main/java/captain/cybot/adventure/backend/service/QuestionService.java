@@ -7,5 +7,5 @@ public interface QuestionService {
 
     Question getQuestion(String username, String planet, int questionNumber) throws PrerequisiteNotMetException;
 
-    boolean checkQuestion(String username, String planet, int questionNumber, String[] answers) throws PrerequisiteNotMetException;
+    QuestionAnswer checkQuestion(String username, String planet, int questionNumber, String[] answers, QuestionAnswer ansObj) throws PrerequisiteNotMetException;
 }

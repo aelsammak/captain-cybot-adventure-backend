@@ -3,11 +3,17 @@ package captain.cybot.adventure.backend.component;
 import captain.cybot.adventure.backend.constants.COSMETICS;
 import captain.cybot.adventure.backend.constants.ROLES;
 import captain.cybot.adventure.backend.model.question.*;
+import captain.cybot.adventure.backend.model.quiz.Quiz;
+import captain.cybot.adventure.backend.model.quiz.QuizQuestion;
 import captain.cybot.adventure.backend.model.user.Cosmetic;
 import captain.cybot.adventure.backend.model.user.Role;
+import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.repository.question.*;
+import captain.cybot.adventure.backend.repository.quiz.QuizQuestionRepository;
+import captain.cybot.adventure.backend.repository.quiz.QuizRepository;
 import captain.cybot.adventure.backend.repository.user.CosmeticRepository;
 import captain.cybot.adventure.backend.repository.user.RoleRepository;
+import captain.cybot.adventure.backend.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -25,11 +31,16 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
     private GuessTheImageRepository guessTheImageRepository;
     private CrosswordRepository crosswordRepository;
 
+    private QuizQuestionRepository quizQuestionRepository;
+
+    private QuizRepository quizRepository;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         initDefaultRoles();
         initDefaultCosmetics();
         initDefaultQuestions();
+        initDefaultQuizzes();
     }
 
     private void initDefaultRoles() {
@@ -165,6 +176,46 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
                     "CREEPER2"));
             w2Q1 = new QuestionOrder(w2Q1Question, 1, "MARS");
             questionOrderRepository.save(w2Q1);
+        }
+    }
+
+
+    private void initDefaultQuizzes() {
+        Quiz w1Quiz = quizRepository.findByPlanet("EARTH");
+        Quiz w2Quiz = quizRepository.findByPlanet("MARS");
+        Quiz w3Quiz = quizRepository.findByPlanet("NEPTUNE");
+        Quiz w4Quiz = quizRepository.findByPlanet("JUPITER");
+
+        if (w1Quiz == null) {
+            w1Quiz = new Quiz("EARTH");
+            quizRepository.save(w1Quiz);
+
+            String[] options1 = {"Software that protects your computer from viruses",
+                    "Software that protects your computer from ransomware",
+                    "Software that updates your computers operating system",
+                    "Software that may harm your computer"};
+            QuizQuestion q1 = new QuizQuestion("What is Malware?",options1, "Software that may harm your computer",1);
+
+            q1.setQuiz(w1Quiz);
+
+            q1 = quizQuestionRepository.save(q1);
+
+            w1Quiz.addQuestion(q1);
+
+            String[] options2 = {"Computer runs very slowly",
+                    "Increase in spam email",
+                    "Random operating system updates",
+                    "YouTube is not loading"};
+            QuizQuestion q2 = new QuizQuestion("Which of the following may be an indication that a computer has" +
+                    " been infected by a virus or other malware?",options2, "Computer runs very slowly",2);
+
+            q2.setQuiz(w1Quiz);
+
+            q2 = quizQuestionRepository.save(q2);
+
+            w1Quiz.addQuestion(q2);
+
+            quizRepository.save(w1Quiz);
         }
     }
 }

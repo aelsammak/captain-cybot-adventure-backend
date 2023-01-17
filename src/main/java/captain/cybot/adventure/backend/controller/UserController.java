@@ -3,11 +3,13 @@ package captain.cybot.adventure.backend.controller;
 import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
+import captain.cybot.adventure.backend.model.user.Cosmetic;
 import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.model.user.UserStars;
 import captain.cybot.adventure.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +69,27 @@ public class UserController {
             return ResponseEntity.ok().body(userStars);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no user found with username: " + username);
+        }
+    }
+
+    @GetMapping("/{username}/cosmetic")
+    public ResponseEntity<?> getCosmetic(@PathVariable("username") String username) {
+        User user = userService.getUser(username);
+        if (user != null) {
+            return ResponseEntity.ok().body(user.getCosmetic());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no user found with username: " + username);
+        }
+    }
+
+    @PatchMapping("/{username}/cosmetic")
+    public ResponseEntity<?> updateCosmetic(@PathVariable("username") String username,
+                                            @Valid @RequestBody Cosmetic cosmetic) {
+        try {
+            userService.updateCosmetic(username, cosmetic.getUnlockWorld());
+            return ResponseEntity.ok().body(userService.getUser(username).getCosmetic());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

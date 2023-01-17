@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CosmeticRepository extends JpaRepository<Cosmetic, Long> {
     Cosmetic findByFileName(String fileName);
+    Cosmetic findByUnlockWorld(int unlockWorld);
 }

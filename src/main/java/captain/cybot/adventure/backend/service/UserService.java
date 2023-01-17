@@ -21,6 +21,8 @@ public interface UserService {
 
     void incrementLevelsCompleted(String username, String planet);
 
+    int getLevelsCompleted(String username, String planet);
+
     void incrementIncorrectAttempts(String username, String planet, int levelNumber);
 
     void updateStars(String username, String planet, int levelNumber, int stars);
@@ -32,4 +34,8 @@ public interface UserService {
     void ChangePassword(String username, String password) throws UsernameNotFoundException;
 
     String SetRandomPassword(String username) throws UsernameNotFoundException;
+
+    void setQuizScore(String username, String planet, int score);
+
+    void updateCosmetic(String username, int unlockWorld) throws Exception;
 }

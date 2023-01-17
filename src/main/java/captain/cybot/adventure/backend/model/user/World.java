@@ -30,10 +30,13 @@ public class World {
     @JsonBackReference
     private User user;
 
+    private int quizScore;
+
     public World(String planet) {
         this.planet = planet;
         levelsCompleted = 0;
         levels = new ArrayList<>();
+        quizScore = -1;
     }
 
     public void addLevel(Level level) {
