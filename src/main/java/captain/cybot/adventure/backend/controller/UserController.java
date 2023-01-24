@@ -4,6 +4,7 @@ import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
 import captain.cybot.adventure.backend.model.user.Cosmetic;
+import captain.cybot.adventure.backend.model.user.Leaderboard;
 import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.model.user.UserStars;
 import captain.cybot.adventure.backend.service.UserService;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -90,6 +92,18 @@ public class UserController {
             return ResponseEntity.ok().body(userService.getUser(username).getCosmetic());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/leaderboard")
+    public ResponseEntity<?> getLeaderboard(@RequestParam(name = "pageNumber") int pageNumber,
+                                            @RequestParam(name = "usersPerPage") int usersPerPage) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Leaderboard leaderboard = userService.getLeaderboard(username,pageNumber,usersPerPage);
+        if (leaderboard != null) {
+            return ResponseEntity.ok().body(leaderboard);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Leaderboard cannot be gotten at this time");
         }
     }
 }

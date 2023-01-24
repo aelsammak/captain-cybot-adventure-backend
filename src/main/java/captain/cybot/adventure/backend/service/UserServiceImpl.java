@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -320,5 +321,45 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+    }
+
+    @Override
+    public Leaderboard getLeaderboard(String username, int pageNumber, int usersPerPage) {
+        int startIndex = (pageNumber-1)*usersPerPage;
+        List<User> leaderboardList = userRepository.findByOrderByTotalStarsDescUsernameAsc();
+        User currentUser = userRepository.findByUsername(username);
+        List<User> page;
+        if (leaderboardList.size() > startIndex + usersPerPage) {
+            page = leaderboardList.subList(startIndex, startIndex + usersPerPage);
+        } else {
+            page = leaderboardList.subList(startIndex, leaderboardList.size());
+        }
+        boolean userFound = false;
+        int i = startIndex;
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.setEntries(new ArrayList<>());
+
+
+        for (User user : page) {
+            if (user.equals(currentUser)) {
+                userFound = true;
+            }
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setUsername(user.getUsername());
+            leaderboardEntry.setStars(user.getTotalStars());
+            leaderboardEntry.setPosition(i+1);
+            leaderboard.getEntries().add(leaderboardEntry);
+            i++;
+        }
+
+        if (!userFound) {
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setUsername(currentUser.getUsername());
+            leaderboardEntry.setStars(currentUser.getTotalStars());
+            leaderboardEntry.setPosition(leaderboardList.indexOf(currentUser) + 1);
+            leaderboard.getEntries().add(leaderboardEntry);
+        }
+
+        return leaderboard;
     }
 }

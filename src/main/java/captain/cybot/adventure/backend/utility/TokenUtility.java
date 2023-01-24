@@ -51,7 +51,8 @@ public class TokenUtility {
                 }
             }
             if (!isAdmin) {
-                if (!request.getRequestURI().contains(username) && request.getRequestURI().contains("/user")) {
+                if (!request.getRequestURI().contains(username) && request.getRequestURI().contains("/user") &&
+                    !request.getRequestURI().contains("leaderboard")) {
                     throw new Exception("User not authorized");
                 }
             }

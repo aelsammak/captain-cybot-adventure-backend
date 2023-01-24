@@ -4,6 +4,7 @@ import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
 import captain.cybot.adventure.backend.model.user.AllowedQuestions;
+import captain.cybot.adventure.backend.model.user.Leaderboard;
 import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.model.user.UserStars;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,4 +39,6 @@ public interface UserService {
     void setQuizScore(String username, String planet, int score);
 
     void updateCosmetic(String username, int unlockWorld) throws Exception;
+
+    Leaderboard getLeaderboard(String username, int pageNumber, int usersPerPage);
 }
