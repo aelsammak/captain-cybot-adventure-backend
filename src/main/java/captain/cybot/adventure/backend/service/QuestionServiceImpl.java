@@ -35,6 +35,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         List<AllowedQuestions> allowedQuestions = userService.getAllowedQuestions(username);
+        userService.setNewUserFlag(username, false);
 
         boolean isAllowed = false;
 

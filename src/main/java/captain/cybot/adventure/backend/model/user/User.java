@@ -51,10 +51,13 @@ public class User {
 
     private int totalStars = 0;
 
+    private boolean newUser;
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.newUser = true;
     }
 
     public void addWorld(World world) {

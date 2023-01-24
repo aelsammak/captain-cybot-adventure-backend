@@ -362,4 +362,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return leaderboard;
     }
+
+    public void setNewUserFlag(String username, boolean flagState) {
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            user.setNewUser(flagState);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+    }
 }

@@ -41,4 +41,6 @@ public interface UserService {
     void updateCosmetic(String username, int unlockWorld) throws Exception;
 
     Leaderboard getLeaderboard(String username, int pageNumber, int usersPerPage);
+
+    void setNewUserFlag(String username, boolean flagState);
 }
