@@ -121,6 +121,7 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
@@ -133,6 +134,7 @@ public class QuizIntegrationTest {
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
@@ -185,6 +187,7 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
@@ -197,6 +200,7 @@ public class QuizIntegrationTest {
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();
@@ -296,6 +300,7 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
@@ -308,6 +313,7 @@ public class QuizIntegrationTest {
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();
@@ -407,6 +413,7 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
@@ -419,6 +426,7 @@ public class QuizIntegrationTest {
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();

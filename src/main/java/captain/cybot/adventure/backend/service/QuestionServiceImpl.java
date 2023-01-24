@@ -1,6 +1,7 @@
 package captain.cybot.adventure.backend.service;
 
 import captain.cybot.adventure.backend.constants.ROLES;
+import captain.cybot.adventure.backend.constants.TimeToStars;
 import captain.cybot.adventure.backend.exception.PrerequisiteNotMetException;
 import captain.cybot.adventure.backend.model.question.*;
 import captain.cybot.adventure.backend.model.user.AllowedQuestions;
@@ -86,13 +87,25 @@ public class QuestionServiceImpl implements QuestionService {
             if (userService.getLevelsCompleted(username, planet) < questionNumber) {
                 userService.incrementLevelsCompleted(username, planet);
             }
-            int incorrectResponses = userService.getIncorrectAttempts(username, planet, questionNumber);
-            int stars = 3 - incorrectResponses;
-            if (stars <= 0) {
-                stars = 1;
-            }
-            if (stars > 3) {
-                stars = 3;
+            int stars;
+            if (getQuestion(username, planet, questionNumber).getType().equals("WORD_SEARCH") ||
+                getQuestion(username, planet, questionNumber).getType().equals("CROSSWORD")) {
+                if (ansObj.getTimeTaken() < TimeToStars.MAX_TIME_3_STARS.getTime()) {
+                    stars = 3;
+                } else if (ansObj.getTimeTaken() < TimeToStars.MAX_TIME_2_STARS.getTime()) {
+                    stars = 2;
+                } else {
+                    stars = 1;
+                }
+            } else {
+                int incorrectResponses = userService.getIncorrectAttempts(username, planet, questionNumber);
+                stars = 3 - incorrectResponses;
+                if (stars <= 0) {
+                    stars = 1;
+                }
+                if (stars > 3) {
+                    stars = 3;
+                }
             }
             userService.updateStars(username, planet, questionNumber, stars);
             ansObj.setCorrect(true);
