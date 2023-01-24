@@ -97,8 +97,9 @@ public class QuizServiceImpl implements QuizService{
         }
 
         correctCount = correctCount*100;
+        System.out.println(correctCount);
         int score = correctCount / quiz.getQuestions().size();
-
+        System.out.println(score);
         userService.setQuizScore(username, planet, score);
 
         return score;

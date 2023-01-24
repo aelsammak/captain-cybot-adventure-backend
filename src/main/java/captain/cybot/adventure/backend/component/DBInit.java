@@ -215,6 +215,103 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
             w1Quiz.addQuestion(q2);
 
+            String[] options3 = {"Damage data files",
+                    "Increasing the size of files by attaching themselves to the files",
+                    "Slowing down the system by occupying most of the memory space",
+                    "All the options listed"};
+            QuizQuestion q3 = new QuizQuestion("Which of these are the harmful effects of viruses?",options3, "All the options listed",3);
+
+            q3.setQuiz(w1Quiz);
+
+            q3 = quizQuestionRepository.save(q3);
+
+            w1Quiz.addQuestion(q3);
+
+            String[] options4 = {"Malicious self-reproducing programs that change how a computer works",
+                    "Threatens user with stolen data unless ransom is paid",
+                    "Self-installed software that monitors your online behaviour",
+                    "Software that protects your computer from cyber attacks"};
+            QuizQuestion q4 = new QuizQuestion("What is a computer virus?",options4, "Malicious self-reproducing programs that change how a computer works",4);
+
+            q4.setQuiz(w1Quiz);
+
+            q4 = quizQuestionRepository.save(q4);
+
+            w1Quiz.addQuestion(q4);
+
+            String[] options5 = {"Online downloads",
+                    "Infected emails",
+                    "External hardware",
+                    "Anti-Virus Software"};
+            QuizQuestion q5 = new QuizQuestion("What is an example of how computer viruses DON’T spread?",options5, "Anti-Virus Software",5);
+
+            q5.setQuiz(w1Quiz);
+
+            q5 = quizQuestionRepository.save(q5);
+
+            w1Quiz.addQuestion(q5);
+
+            String[] options6 = {"Never open emails",
+                    "Anti-Virus Software",
+                    "Uninstall and reinstall programs periodically",
+                    "Use the same password for all your accounts"};
+            QuizQuestion q6 = new QuizQuestion("What is an example of how computer viruses DON’T spread?",options6, "Anti-Virus Software",6);
+
+            q6.setQuiz(w1Quiz);
+
+            q6 = quizQuestionRepository.save(q6);
+
+            w1Quiz.addQuestion(q6);
+
+            String[] options7 = {"Deletes every file it suspects is infected",
+                    "Stops people gaining unauthorised access to your computer via the internet",
+                    "Inspects computer files and email attachments for viruses and removes any that it finds",
+                    "Disables the internet"};
+            QuizQuestion q7 = new QuizQuestion("What is an example of how computer viruses DON’T spread?",options7, "Inspects computer files and email attachments for viruses and removes any that it finds",7);
+
+            q7.setQuiz(w1Quiz);
+
+            q7 = quizQuestionRepository.save(q7);
+
+            w1Quiz.addQuestion(q7);
+
+            String[] options8 = {"Antivirus",
+                    "Virus",
+                    "Malware",
+                    "Trojans"};
+            QuizQuestion q8 = new QuizQuestion("Quick Heal, Norton , AVG, Smart Dog, McAffee are all examples of _______?",options8, "Antivirus",8);
+
+            q8.setQuiz(w1Quiz);
+
+            q8 = quizQuestionRepository.save(q8);
+
+            w1Quiz.addQuestion(q8);
+
+
+            String[] options9 = {"Mydoom",
+                    "Creeper",
+                    "Code Red",
+                    "Sobig"};
+            QuizQuestion q9 = new QuizQuestion("What is the name of first computer virus?",options9, "Creeper",9);
+
+            q9.setQuiz(w1Quiz);
+
+            q9 = quizQuestionRepository.save(q9);
+
+            w1Quiz.addQuestion(q9);
+
+            String[] options10 = {"Identity Theft",
+                    "Pranks",
+                    "Research Purpose",
+                    "Protection"};
+            QuizQuestion q10 = new QuizQuestion("Why do people NOT create computer viruses?",options10, "Protection",10);
+
+            q10.setQuiz(w1Quiz);
+
+            q10 = quizQuestionRepository.save(q10);
+
+            w1Quiz.addQuestion(q10);
+
             quizRepository.save(w1Quiz);
         }
     }
