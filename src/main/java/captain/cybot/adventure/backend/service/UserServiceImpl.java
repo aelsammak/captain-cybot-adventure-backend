@@ -290,7 +290,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public String SetRandomPassword(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         int length = 20;
-        String password = StringUtility.GenerateRandomString(length);
+        String password = StringUtility.GenerateRandomPassword(length);
         user.setPassword(password);
         userRepository.save(user);
         return password;

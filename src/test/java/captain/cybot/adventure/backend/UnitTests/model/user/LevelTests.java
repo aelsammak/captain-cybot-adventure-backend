@@ -25,4 +25,14 @@ public class LevelTests {
         level.setStars(2);
         assertEquals(2, level.getStars());
     }
+
+    @Test
+    public void incrementIncorrectAttempts() {
+        Level level = new Level(1);
+        assertEquals(0, level.getIncorrectAttempts());
+        level.incrementIncorrectAttempts();
+        assertEquals(1, level.getIncorrectAttempts());
+        level.incrementIncorrectAttempts();
+        assertEquals(2, level.getIncorrectAttempts());
+    }
 }

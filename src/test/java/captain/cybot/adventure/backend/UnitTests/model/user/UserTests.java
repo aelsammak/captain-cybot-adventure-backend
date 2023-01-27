@@ -72,4 +72,18 @@ public class UserTests {
         assertEquals(1, user.getWorlds().size());
         assertEquals(world, user.getWorlds().get(0));
     }
+
+    @Test
+    public void newUserDefaultTrue() {
+        User user = new User("MyUsername", "my_email@gmail.com", "password123");
+        assertTrue(user.isNewUser());
+    }
+
+    @Test
+    public void updateNewUser() {
+        User user = new User("MyUsername", "my_email@gmail.com", "password123");
+        assertTrue(user.isNewUser());
+        user.setNewUser(false);
+        assertFalse(user.isNewUser());
+    }
 }

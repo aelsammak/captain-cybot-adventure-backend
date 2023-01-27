@@ -109,6 +109,114 @@ class QuestionIntegrationTest {
         return null;
     }
 
+    private void inputQuestion(String token, String planet, int questionNumber, boolean correct, int timeTaken) throws Exception{
+        JSONArray answerArr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        answerArr.put("creeper");
+        jsonObj.put("answers", answerArr);
+        String w1Q1 = jsonObj.toString();
+        answerArr = new JSONArray();
+        jsonObj = new JSONObject();
+        answerArr.put("replicate");
+        jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", timeTaken);
+        String w1Q2 = jsonObj.toString();
+        answerArr = new JSONArray();
+        jsonObj = new JSONObject();
+        answerArr.put("software");
+        answerArr.put("norton");
+        answerArr.put("replicate");
+        answerArr.put("creeper");
+        answerArr.put("computer");
+        answerArr.put("email");
+        answerArr.put("malware");
+        answerArr.put("viruses");
+        jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", timeTaken);
+        String w1Q4 = jsonObj.toString();
+        answerArr = new JSONArray();
+        jsonObj = new JSONObject();
+        answerArr.put("protection");
+        answerArr.put("antivirus");
+        answerArr.put("virus");
+        answerArr.put("replicate");
+        answerArr.put("slow");
+        answerArr.put("malware");
+        answerArr.put("creeper");
+        answerArr.put("damage");
+        jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", timeTaken);
+        String w1Q3 = jsonObj.toString();
+        answerArr = new JSONArray();
+        jsonObj = new JSONObject();
+        answerArr.put("Incorrect");
+        jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", timeTaken);
+        String ans = jsonObj.toString();
+
+        if (correct) {
+            switch (planet) {
+                case "EARTH":
+                    switch (questionNumber) {
+                        case 1:
+                            ans = w1Q1;
+                            break;
+                        case 2:
+                            ans = w1Q2;
+                            break;
+                        case 3:
+                            ans = w1Q3;
+                            break;
+                        case 4:
+                            ans = w1Q4;
+                            break;
+                    }
+                    break;
+                case "MARS":
+                    switch (questionNumber) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
+                    break;
+                case "NEPTUNE":
+                    switch (questionNumber) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
+                    break;
+                case "JUPITER":
+                    switch (questionNumber) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        mvc.perform(post(QUESTION_URL +"?planet="+planet+"&questionNumber="+questionNumber)
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(ans));
+    }
+
     @BeforeEach
     void setUp() {
         test_user = userBodyGenerator(USER_NAME, USER_EMAIL, USER_PASS);
@@ -458,5 +566,73 @@ class QuestionIntegrationTest {
         mvc.perform(get(QUESTION_URL +"?planet=EARTH&questionNumber=3")
                 .header("Authorization", access_token))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(11)
+    void starCalculationWordScramble() throws Exception{
+        inputQuestion(access_token,"EARTH",1, false, 100);
+        inputQuestion(access_token,"EARTH",1, false, 100);
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        int stars = getStars(USER_NAME,"EARTH",1,access_token);
+        assertEquals(stars, 1);
+        inputQuestion(access_token,"EARTH",1, false, 100);
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        stars = getStars(USER_NAME,"EARTH",1,access_token);
+        assertEquals(stars, 2);
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        stars = getStars(USER_NAME,"EARTH",1,access_token);
+        assertEquals(stars, 3);
+    }
+
+    @Test
+    @Order(12)
+    void starCalculationGuessTheImage() throws Exception {
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        inputQuestion(access_token,"EARTH",2, false, 100);
+        inputQuestion(access_token,"EARTH",2, false, 100);
+        inputQuestion(access_token,"EARTH",2, true, 100);
+        int stars = getStars(USER_NAME,"EARTH",2,access_token);
+        assertEquals(stars, 1);
+        inputQuestion(access_token,"EARTH",2, false, 100);
+        inputQuestion(access_token,"EARTH",2, true, 100);
+        stars = getStars(USER_NAME,"EARTH",2,access_token);
+        assertEquals(stars, 2);
+        inputQuestion(access_token,"EARTH",2, true, 100);
+        stars = getStars(USER_NAME,"EARTH",2,access_token);
+        assertEquals(stars, 3);
+    }
+
+    @Test
+    @Order(12)
+    void starCalculationCrossword() throws Exception{
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        inputQuestion(access_token,"EARTH",2, true, 100);
+        inputQuestion(access_token,"EARTH",3, true, 1000);
+        int stars = getStars(USER_NAME,"EARTH",3,access_token);
+        assertEquals(stars, 1);
+        inputQuestion(access_token,"EARTH",3, true, 200);
+        stars = getStars(USER_NAME,"EARTH",3,access_token);
+        assertEquals(stars, 2);
+        inputQuestion(access_token,"EARTH",3, true, 100);
+        stars = getStars(USER_NAME,"EARTH",3,access_token);
+        assertEquals(stars, 3);
+    }
+
+    @Test
+    @Order(13)
+    void starCalculationWordSearch() throws Exception{
+        inputQuestion(access_token,"EARTH",1, true, 100);
+        inputQuestion(access_token,"EARTH",2, true, 100);
+        inputQuestion(access_token,"EARTH",3, true, 100);
+        inputQuestion(access_token,"EARTH",4, true, 1000);
+        int stars = getStars(USER_NAME,"EARTH",4,access_token);
+        assertEquals(stars, 1);
+        inputQuestion(access_token,"EARTH",4, true, 200);
+        stars = getStars(USER_NAME,"EARTH",4,access_token);
+        assertEquals(stars, 2);
+        inputQuestion(access_token,"EARTH",4, true, 100);
+        stars = getStars(USER_NAME,"EARTH",4,access_token);
+        assertEquals(stars, 3);
     }
 }

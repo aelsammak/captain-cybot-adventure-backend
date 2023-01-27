@@ -7,7 +7,7 @@ public enum TimeToStars {
 
     /* time in s */
     MAX_TIME_3_STARS(120),
-    MAX_TIME_2_STARS(600);
+    MAX_TIME_2_STARS(300);
 
     private int time;
 
