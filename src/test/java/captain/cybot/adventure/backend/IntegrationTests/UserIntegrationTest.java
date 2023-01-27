@@ -619,4 +619,34 @@ class UserIntegrationTest {
         mvc.perform(get(CONTROLLER_URL + "/" + USER_NAME +"/cosmetic").header("Authorization", access_token))
                 .andExpect(jsonPath("$.unlockWorld").value(1));
     }
+
+    @Test
+    @Order(20)
+    void changePassword() throws Exception {
+        try {
+            /* Delete user if already exists */
+            String access_token = obtainAccessToken(USER_NAME, USER_PASS);
+            mvc.perform(delete(CONTROLLER_URL + "/" + USER_NAME).header("Authorization", access_token));
+        } catch (Exception e) {
+        }
+        String temp_user = userBodyGenerator(USER_NAME, USER_EMAIL, USER_PASS);
+        mvc.perform(post(CONTROLLER_URL).contentType(MediaType.APPLICATION_JSON)
+                .content(temp_user)).andExpect(status().isCreated());
+        String access_token = obtainAccessToken(USER_NAME, USER_PASS);
+        mvc.perform(patch(CONTROLLER_URL + "/" + USER_NAME +"/password").header("Authorization", access_token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"password\":\"MyNewPass2023!\"}")).andExpect(status().isOk());
+        String login_body = loginBodyGenerator(USER_NAME, "MyNewPass2023!");
+        mvc.perform(post(LOGIN_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(login_body))
+                .andExpect(status().isOk());
+
+        try {
+            /* Delete user if already exists */
+            access_token = obtainAccessToken(USER_NAME, "MyNewPass2023!");
+            mvc.perform(delete(CONTROLLER_URL + "/" + USER_NAME).header("Authorization", access_token));
+        } catch (Exception e) {
+        }
+    }
 }

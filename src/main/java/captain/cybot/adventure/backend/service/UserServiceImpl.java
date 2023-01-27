@@ -2,10 +2,7 @@ package captain.cybot.adventure.backend.service;
 
 import captain.cybot.adventure.backend.constants.COSMETICS;
 import captain.cybot.adventure.backend.constants.ROLES;
-import captain.cybot.adventure.backend.exception.CosmeticNotFoundException;
-import captain.cybot.adventure.backend.exception.InvalidRoleException;
-import captain.cybot.adventure.backend.exception.PasswordInvalidException;
-import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
+import captain.cybot.adventure.backend.exception.*;
 import captain.cybot.adventure.backend.model.user.*;
 import captain.cybot.adventure.backend.repository.user.*;
 import captain.cybot.adventure.backend.utility.StringUtility;
@@ -281,17 +278,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return res;
     }
 
-    public void ChangePassword(String username, String password) throws UsernameNotFoundException {
+    public void changePassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        user.setPassword(password);
+        if (user == null) {
+            throw new UsernameNotFoundException("no user found with username: " + username);
+        }
+        user.setPassword(passwordEncoder().encode(password));
         userRepository.save(user);
     }
 
-    public String SetRandomPassword(String username) throws UsernameNotFoundException {
+    public String SetRandomPassword(String username, String email) throws UsernameNotFoundException, UsernameAndEmailDontMatchException {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("no user found with username: " + username);
+        }
+        if (!user.getEmail().equals(email)) {
+            throw new UsernameAndEmailDontMatchException("Username and email do not match");
+        }
         int length = 20;
         String password = StringUtility.GenerateRandomPassword(length);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder().encode(password));
         userRepository.save(user);
         return password;
     }

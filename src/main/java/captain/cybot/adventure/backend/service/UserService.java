@@ -3,6 +3,7 @@ package captain.cybot.adventure.backend.service;
 import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
+import captain.cybot.adventure.backend.exception.UsernameAndEmailDontMatchException;
 import captain.cybot.adventure.backend.model.user.AllowedQuestions;
 import captain.cybot.adventure.backend.model.user.Leaderboard;
 import captain.cybot.adventure.backend.model.user.User;
@@ -32,9 +33,9 @@ public interface UserService {
 
     UserStars getUserStars(String username);
 
-    void ChangePassword(String username, String password) throws UsernameNotFoundException;
+    void changePassword(String username, String password) throws UsernameNotFoundException;
 
-    String SetRandomPassword(String username) throws UsernameNotFoundException;
+    String SetRandomPassword(String username, String email) throws UsernameNotFoundException, UsernameAndEmailDontMatchException;
 
     void setQuizScore(String username, String planet, int score);
 
