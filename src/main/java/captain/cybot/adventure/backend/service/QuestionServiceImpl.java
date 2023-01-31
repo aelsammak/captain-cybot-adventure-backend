@@ -37,27 +37,6 @@ public class QuestionServiceImpl implements QuestionService {
         List<AllowedQuestions> allowedQuestions = userService.getAllowedQuestions(username);
         userService.setNewUserFlag(username, false);
 
-        boolean isAllowed = false;
-
-        for (AllowedQuestions q : allowedQuestions) {
-            if (q.getPlanet().equals(planet) && q.getQuestionNumber() == questionNumber) {
-                isAllowed = true;
-                break;
-            }
-        }
-
-        for (Role role : userService.getUser(username).getRoles()) {
-            if (role.getName().equals(ROLES.ROLE_ADMIN.toString())) {
-                isAllowed = true;
-            }
-        }
-
-        if (!isAllowed) {
-            throw new PrerequisiteNotMetException("User: " + username + " does not have access to question world: " +
-                    planet + " number: " + questionNumber);
-        }
-
-
         return questionOrder.getQuestion();
     }
 
