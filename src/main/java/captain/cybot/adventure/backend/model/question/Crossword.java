@@ -52,7 +52,7 @@ public class Crossword extends Question {
             name = "answers",
             columnDefinition = "text[]"
     )
-    @JsonIgnore
+
     private String[] answers;
 
     public Crossword(String[][] crosswordBlock, String[] hints, String[] answers) {
