@@ -331,9 +331,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Leaderboard getLeaderboard(String username, int pageNumber, int usersPerPage) {
-        int startIndex = (pageNumber-1)*usersPerPage;
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        }
         List<User> leaderboardList = userRepository.findByOrderByTotalStarsDescUsernameAsc();
         User currentUser = userRepository.findByUsername(username);
+        int startIndex = (pageNumber-1)*usersPerPage - (pageNumber - 1);
+        if (leaderboardList.indexOf(currentUser) < startIndex) {
+            startIndex++;
+        }
+
+        if (leaderboardList.indexOf(currentUser) < startIndex || leaderboardList.indexOf(currentUser) > startIndex+usersPerPage) {
+            usersPerPage--;
+        }
+
         List<User> page;
         if (leaderboardList.size() > startIndex + usersPerPage) {
             page = leaderboardList.subList(startIndex, startIndex + usersPerPage);

@@ -436,7 +436,7 @@ class UserIntegrationTest {
                 token = obtainAccessToken(USER_NAME+"POS" +i, USER_PASS);
             }
 
-            if (i>=10 && i < 20) {
+            if (i>=9 && i < 19) {
                 LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
                 leaderboardEntry.setUsername(USER_NAME+"POS" +i);
                 leaderboardEntry.setPosition(i+1);
@@ -523,7 +523,7 @@ class UserIntegrationTest {
 
         mvc.perform(get(CONTROLLER_URL + "/leaderboard?pageNumber=1&usersPerPage=10")
                         .header("Authorization", token))
-                .andExpect(jsonPath("$.entries.length()").value(11));
+                .andExpect(jsonPath("$.entries.length()").value(10));
     }
 
     @Test
