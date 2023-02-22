@@ -341,7 +341,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             startIndex++;
         }
 
-        if (leaderboardList.indexOf(currentUser) < startIndex || leaderboardList.indexOf(currentUser) > startIndex+usersPerPage) {
+        if (leaderboardList.indexOf(currentUser) < startIndex || leaderboardList.indexOf(currentUser) > (startIndex+usersPerPage-1)) {
             usersPerPage--;
         }
 
