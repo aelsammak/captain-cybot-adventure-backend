@@ -7,13 +7,11 @@ import captain.cybot.adventure.backend.model.quiz.Quiz;
 import captain.cybot.adventure.backend.model.quiz.QuizQuestion;
 import captain.cybot.adventure.backend.model.user.Cosmetic;
 import captain.cybot.adventure.backend.model.user.Role;
-import captain.cybot.adventure.backend.model.user.User;
 import captain.cybot.adventure.backend.repository.question.*;
 import captain.cybot.adventure.backend.repository.quiz.QuizQuestionRepository;
 import captain.cybot.adventure.backend.repository.quiz.QuizRepository;
 import captain.cybot.adventure.backend.repository.user.CosmeticRepository;
 import captain.cybot.adventure.backend.repository.user.RoleRepository;
-import captain.cybot.adventure.backend.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -184,21 +182,16 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
         if (w2Q3 == null) {
             String[][] searchBlock = {
-                    {"P","I","Y","E","O","D","A","Z","L","E","M","R","V","N","O"},
-                    {"L","N","F","M","C","T","P","N","B","T","Q","Y","Q","M","F"},
-                    {"D","E","N","A","G","M","P","D","X","U","J","F","B","A","V"},
-                    {"S","T","P","I","M","J","L","X","M","W","Z","Z","A","J","W"},
-                    {"S","W","X","L","J","F","I","D","J","H","A","C","K","E","R"},
-                    {"Z","O","K","W","W","I","C","W","O","X","T","F","B","D","J"},
-                    {"B","R","R","E","M","U","A","L","P","T","I","F","G","U","X"},
-                    {"S","K","W","H","U","I","T","H","J","T","N","P","W","I","R"},
-                    {"U","M","L","X","I","K","I","T","Z","L","T","J","Q","R","C"},
-                    {"W","Y","J","E","Z","Q","O","Z","F","U","E","I","L","O","S"},
-                    {"O","Y","B","G","M","X","N","Z","C","P","R","V","Z","W","Z"},
-                    {"J","R","M","F","Y","Z","O","Q","Q","P","N","C","F","O","U"},
-                    {"V","B","V","Q","Z","W","N","A","P","R","E","T","I","R","M"},
-                    {"V","U","U","Q","D","S","J","T","D","Z","T","T","L","M","R"},
-                    {"H","A","R","D","W","A","R","E","W","M","L","D","E","S","B"}
+                    {"A","P","P","L","I","C","A","T","I","O","N"},
+                    {"N","H","S","A","H","C","J","V","E","A","M"},
+                    {"E","D","T","H","J","N","V","A","E","T","P"},
+                    {"T","H","A","R","D","W","A","R","E","L","U"},
+                    {"W","Q","Z","G","H","K","L","Z","M","G","F"},
+                    {"O","W","E","M","A","I","L","A","C","Y","I"},
+                    {"R","O","R","F","Y","B","H","J","Q","N","L"},
+                    {"K","R","T","H","V","U","Z","Q","P","I","E"},
+                    {"O","M","M","R","A","H","A","C","K","E","R"},
+                    {"I","N","T","E","R","N","E","T","H","T","K"}
             };
             String[] answers = {"application", "internet", "hardware", "file", "network", "hacker", "email", "worm"};
             WordSearch w2Q3Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
