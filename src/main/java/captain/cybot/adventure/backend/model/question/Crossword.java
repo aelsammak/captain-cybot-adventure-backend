@@ -83,14 +83,32 @@ public class Crossword extends Question {
     private String getDirection(int cellCol, int cellRow, String[][] searchBlock) {
         boolean isMaxCol = (cellCol == searchBlock[0].length-1);
         boolean isMaxRow= (cellRow == searchBlock.length-1);
+        boolean isMinCol = (cellCol == 0);
+        boolean isMinRow= (cellRow == 0);
 
         String dir;
 
         if (!isMaxCol && !isMaxRow) {
             if (searchBlock[cellRow][cellCol+1].equals("|")) {
                 dir = "down";
-            } else {
+            } else if (searchBlock[cellRow+1][cellCol].equals("|")) {
                 dir = "across";
+            } else {
+                if (!isMinCol) {
+                    if (searchBlock[cellRow][cellCol-1].equals("X")) {
+                        dir = "down";
+                    } else {
+                        dir = "across";
+                    }
+                } else if (!isMinRow) {
+                    if (searchBlock[cellRow-1][cellCol].equals("X")) {
+                        dir = "across";
+                    } else {
+                        dir = "down";
+                    }
+                } else {
+                    dir = "across";
+                }
             }
         } else if (isMaxCol && !isMaxRow) {
             dir = "down";

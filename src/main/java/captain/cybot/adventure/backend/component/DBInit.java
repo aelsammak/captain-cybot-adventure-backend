@@ -244,23 +244,18 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
         if (w3Q3 == null) {
             String[][] searchBlock = {
-                    {"M","G","U","V","H","M","C","M","X","K","Q","Z","A","S","I"},
+                    {"M","G","U","V","M","A","L","I","C","I","O","U","S","S","I"},
                     {"A","P","P","L","I","C","A","T","I","O","N","S","B","J","U"},
-                    {"T","H","C","C","H","T","O","L","G","T","K","Y","Z","O","P"},
-                    {"W","O","T","T","C","P","U","N","I","X","Z","Y","J","T","I"},
-                    {"H","T","P","D","L","B","G","D","E","C","B","E","N","H","J"},
-                    {"D","R","E","I","Z","I","Y","D","D","K","I","R","R","Z","A"},
-                    {"Y","O","J","Q","S","M","A","R","T","P","H","O","N","E","Z"},
-                    {"P","J","Z","N","H","A","K","X","X","J","D","Q","U","T","N"},
-                    {"H","A","O","V","T","X","G","M","V","R","E","T","U","S","N"},
-                    {"I","N","J","Q","L","A","V","A","O","Q","T","E","J","B","C"},
-                    {"D","O","F","P","F","C","H","X","A","T","T","I","U","L","G"},
-                    {"D","E","A","D","M","I","N","I","S","T","R","A","T","O","R"},
-                    {"E","R","P","R","I","V","I","L","E","D","G","E","D","O","W"},
-                    {"N","P","R","O","G","R","A","M","S","K","B","B","Y","O","Z"},
-                    {"Q","J","W","H","A","V","W","E","G","I","Z","N","I","U","G"}
+                    {"T","H","C","C","H","T","O","U","G","T","K","Y","Z","O","P"},
+                    {"W","O","T","P","R","I","V","I","L","E","G","E","J","T","I"},
+                    {"H","T","P","D","L","B","G","D","E","V","B","E","N","H","J"},
+                    {"I","R","E","I","Z","I","Y","D","D","K","I","R","R","Z","A"},
+                    {"D","O","J","Q","S","M","A","R","T","P","H","O","N","E","Z"},
+                    {"D","J","Z","N","H","A","K","X","X","J","D","Q","U","T","N"},
+                    {"E","A","P","R","O","G","R","A","M","S","E","T","U","S","N"},
+                    {"N","N","A","D","M","I","N","I","S","T","R","A","T","O","R"},
             };
-            String[] answers = {"administrator", "application", "smartphone", "malicious", "programs", "trojan", "priviledge", "hidden"};
+            String[] answers = {"administrator", "application", "smartphone", "malicious", "programs", "trojan", "privilege", "hidden"};
             WordSearch w3Q3Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
             w3Q3 = new QuestionOrder(w3Q3Question, 3, "NEPTUNE");
             questionOrderRepository.save(w3Q3);
@@ -313,18 +308,18 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
         if (w4Q3 == null) {
             String[][] searchBlock = {
-                    {"E","V","M","J","B","A","C","K","U","P",},
-                    {"X","F","G","B","I","T","C","O","I","N",},
-                    {"T","K","T","Z","L","W","D","R","J","U",},
-                    {"E","Q","M","A","L","W","A","R","E","V",},
-                    {"R","A","N","S","O","M","W","A","R","E",},
-                    {"N","A","W","H","O","S","T","A","G","E",},
-                    {"A","S","N","L","J","X","C","E","W","N",},
-                    {"L","Y","G","S","F","I","H","R","X","U",},
-                    {"W","T","A","J","O","M","O","N","E","Y",},
-                    {"N","T","C","L","I","M","I","A","U","S",},
+                    {"E","G","V","M","J","B","A","C","K","U","P"},
+                    {"X","T","F","G","B","I","T","C","O","I","N"},
+                    {"T","Z","K","T","Z","L","W","D","R","J","U"},
+                    {"E","Y","Q","M","A","L","W","A","R","E","V"},
+                    {"R","R","A","N","S","O","M","W","A","R","E"},
+                    {"N","S","A","W","H","O","S","T","A","G","E"},
+                    {"A","H","S","N","L","J","X","C","E","W","N"},
+                    {"L","D","Y","G","S","F","I","H","R","X","U"},
+                    {"O","W","T","A","J","O","M","O","N","E","Y"},
+                    {"S","P","A","Y","M","E","N","T","A","U","S"},
             };
-            String[] answers = {"ransomware", "external", "bitcoin", "ransom", "malware", "hostage", "backup", "money"};
+            String[] answers = {"ransomware", "external", "bitcoin", "payment", "malware", "hostage", "backup", "money"};
             WordSearch w4Q3Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
             w4Q3 = new QuestionOrder(w4Q3Question, 3, "JUPITER");
             questionOrderRepository.save(w4Q3);
@@ -516,9 +511,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
             String[] options2 = {"Email Worms",
                     "Internet Worms",
                     "File-Sharing Worms",
-                    "Earth Worms",
-                    "Instant Messaging Worms",
-                    "IRC Worms"};
+                    "Earth Worms"};
             QuizQuestion q2 = new QuizQuestion("Which of the following is not a type of computer worm?",
                     options2, "Earth Worms",2);
 
@@ -528,8 +521,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
             w2Quiz.addQuestion(q2);
 
-            String[] options3 = {"A worm is a type of malicious software that replicates while moving across computers, leaving" +
-                    "copies of itself in the memory of each computer in its path.",
+            String[] options3 = {"A type of malicious software that replicates while moving across computers",
                     "An organism used as bait for fishing",
                     "A worm that snuck into my computer",
                     "Software that protects your computer from cyber attacks."};
@@ -590,7 +582,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
             w2Quiz.addQuestion(q7);
 
-            String[] options8 = {"Always update your software applications with the latest versions to eliminate possible security" +
+            String[] options8 = {"Always update your software applications with the latest versions to eliminate possible security " +
                     "flaws",
                     "Avoid clicking on random links and opening emails from people that you do not know",
                     "Install an anti-virus",
