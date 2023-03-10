@@ -536,7 +536,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
             w2Quiz.addQuestion(q3);
 
             String[] options4 = {"False", "True"};
-            QuizQuestion q4 = new QuizQuestion("Worms are activated and become active dormant like a virus (True/False)",
+            QuizQuestion q4 = new QuizQuestion("Can a worm be active dormant like a virus (True/False)",
                     options4, "False",4);
 
             q4.setQuiz(w2Quiz);
