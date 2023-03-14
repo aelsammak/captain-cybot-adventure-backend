@@ -124,15 +124,15 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
                     {"P","A","N","J","H","J","F","C","I","X"},
                     {"R","R","N","S","Y","K","N","M","L","Y"},
                     {"C","E","O","T","L","I","K","T","M","S"},
-                    {"R","D","P","T","I","O","D","J","I","V"},
-                    {"E","A","E","L","E","V","W","V","F","I"},
-                    {"E","M","N","P","I","C","I","J","U","R"},
-                    {"P","A","K","Q","Q","C","T","R","K","U"},
-                    {"E","G","X","X","N","S","A","I","U","S"},
+                    {"R","D","P","T","I","O","D","J","I","Z"},
+                    {"E","A","E","L","E","V","W","V","F","Y"},
+                    {"E","M","N","P","I","C","I","J","U","A"},
+                    {"P","A","K","Q","Q","C","T","R","K","F"},
+                    {"E","G","X","X","N","S","A","I","U","G"},
                     {"R","E","L","B","G","C","C","T","O","S"},
                     {"K","M","A","L","W","A","R","E","E","N"}
             };
-            String[] answers = {"protection", "antivirus", "virus", "replicate", "slow", "malware", "creeper", "damage"};
+            String[] answers = {"protection", "antivirus", "replicate", "slow", "malware", "creeper", "damage"};
             WordSearch w1Q3Question = wordSearchRepository.save(new WordSearch(searchBlock, answers));
             w1Q3 = new QuestionOrder(w1Q3Question, 3, "EARTH");
             questionOrderRepository.save(w1Q3);
