@@ -123,7 +123,6 @@ class UserIntegrationTest {
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");

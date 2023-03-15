@@ -122,6 +122,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new InvalidRoleException("Invalid Role name: " + roleName +
                     " Valid Role names: " + ROLES.ROLE_USER + " AND " + ROLES.ROLE_ADMIN);
         }
+
+        if (roleName.equals(ROLES.ROLE_ADMIN.toString())) {
+            for (World world : user.getWorlds()) {
+                for (Level level : world.getLevels()) {
+                    if (level.getStars() == 0) {
+                        level.setStars(1);
+                        levelRepository.save(level);
+                    }
+                }
+                if (world.getQuizScore() == -1) {
+                    world.setQuizScore(0);
+                }
+                world.setLevelsCompleted(4);
+                worldRepository.save(world);
+            }
+        }
     }
 
     public void setDefaultCosmetic(String username) {

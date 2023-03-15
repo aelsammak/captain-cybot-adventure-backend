@@ -92,13 +92,6 @@ public class QuizIntegrationTest {
 
     @Test
     @Order(1)
-    void getUnauthorizedQuiz() throws Exception {
-        mvc.perform(get(QUIZ_URL +"?planet=EARTH").header("Authorization", access_token))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @Order(2)
     void getAuthorizedQuiz() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -127,7 +120,6 @@ public class QuizIntegrationTest {
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
@@ -164,7 +156,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void quizScoreCalculation0() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -193,7 +185,6 @@ public class QuizIntegrationTest {
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
@@ -277,7 +268,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void quizScoreCalculation50() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -306,7 +297,6 @@ public class QuizIntegrationTest {
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
@@ -390,7 +380,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void quizScoreCalculation100() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -419,7 +409,6 @@ public class QuizIntegrationTest {
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
