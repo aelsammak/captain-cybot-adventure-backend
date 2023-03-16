@@ -2,10 +2,7 @@ package captain.cybot.adventure.backend.service;
 
 import captain.cybot.adventure.backend.constants.COSMETICS;
 import captain.cybot.adventure.backend.constants.ROLES;
-import captain.cybot.adventure.backend.exception.CosmeticNotFoundException;
-import captain.cybot.adventure.backend.exception.InvalidRoleException;
-import captain.cybot.adventure.backend.exception.PasswordInvalidException;
-import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
+import captain.cybot.adventure.backend.exception.*;
 import captain.cybot.adventure.backend.model.user.*;
 import captain.cybot.adventure.backend.repository.user.*;
 import captain.cybot.adventure.backend.utility.StringUtility;
@@ -20,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.json.JsonObject;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -123,6 +121,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new InvalidRoleException("Invalid Role name: " + roleName +
                     " Valid Role names: " + ROLES.ROLE_USER + " AND " + ROLES.ROLE_ADMIN);
+        }
+
+        if (roleName.equals(ROLES.ROLE_ADMIN.toString())) {
+            for (World world : user.getWorlds()) {
+                for (Level level : world.getLevels()) {
+                    if (level.getStars() == 0) {
+                        level.setStars(1);
+                        levelRepository.save(level);
+                    }
+                }
+                if (world.getQuizScore() == -1) {
+                    world.setQuizScore(0);
+                }
+                world.setLevelsCompleted(4);
+                worldRepository.save(world);
+            }
         }
     }
 
@@ -280,17 +294,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return res;
     }
 
-    public void ChangePassword(String username, String password) throws UsernameNotFoundException {
+    public void changePassword(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        user.setPassword(password);
+        if (user == null) {
+            throw new UsernameNotFoundException("no user found with username: " + username);
+        }
+        user.setPassword(passwordEncoder().encode(password));
         userRepository.save(user);
     }
 
-    public String SetRandomPassword(String username) throws UsernameNotFoundException {
+    public String SetRandomPassword(String username, String email) throws UsernameNotFoundException, UsernameAndEmailDontMatchException {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("no user found with username: " + username);
+        }
+        if (!user.getEmail().equals(email)) {
+            throw new UsernameAndEmailDontMatchException("Username and email do not match");
+        }
         int length = 20;
-        String password = StringUtility.GenerateRandomString(length);
-        user.setPassword(password);
+        String password = StringUtility.GenerateRandomPassword(length);
+        user.setPassword(passwordEncoder().encode(password));
         userRepository.save(user);
         return password;
     }
@@ -317,6 +340,68 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             } else {
                 throw new CosmeticNotFoundException("Cosmetic not found with unlock world: " + unlockWorld);
             }
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+    }
+
+    @Override
+    public Leaderboard getLeaderboard(String username, int pageNumber, int usersPerPage) {
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        }
+        List<User> leaderboardList = userRepository.findByOrderByTotalStarsDescUsernameAsc();
+        User currentUser = userRepository.findByUsername(username);
+        int startIndex = (pageNumber-1)*usersPerPage - (pageNumber - 1);
+        if (leaderboardList.indexOf(currentUser) < startIndex) {
+            startIndex++;
+        }
+
+        if (leaderboardList.indexOf(currentUser) < startIndex || leaderboardList.indexOf(currentUser) > (startIndex+usersPerPage-1)) {
+            usersPerPage--;
+        }
+
+        List<User> page;
+        if (leaderboardList.size() > startIndex + usersPerPage) {
+            page = leaderboardList.subList(startIndex, startIndex + usersPerPage);
+        } else {
+            page = leaderboardList.subList(startIndex, leaderboardList.size());
+        }
+        boolean userFound = false;
+        int i = startIndex;
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.setEntries(new ArrayList<>());
+
+
+        for (User user : page) {
+            if (user.equals(currentUser)) {
+                userFound = true;
+            }
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setUsername(user.getUsername());
+            leaderboardEntry.setStars(user.getTotalStars());
+            leaderboardEntry.setPosition(i+1);
+            leaderboard.getEntries().add(leaderboardEntry);
+            i++;
+        }
+
+        if (!userFound) {
+            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
+            leaderboardEntry.setUsername(currentUser.getUsername());
+            leaderboardEntry.setStars(currentUser.getTotalStars());
+            leaderboardEntry.setPosition(leaderboardList.indexOf(currentUser) + 1);
+            leaderboard.getEntries().add(leaderboardEntry);
+        }
+
+        return leaderboard;
+    }
+
+    public void setNewUserFlag(String username, boolean flagState) {
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            user.setNewUser(flagState);
+            userRepository.save(user);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

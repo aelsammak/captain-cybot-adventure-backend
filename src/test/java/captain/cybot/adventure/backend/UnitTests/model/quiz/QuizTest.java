@@ -38,4 +38,11 @@ public class QuizTest {
         assertEquals(q2.getQuiz(), quiz);
         assertEquals(quiz.getQuestions(), questions);
     }
+
+    @Test
+    public void SetPlanet() {
+        Quiz quiz = new Quiz("Planet1");
+
+        assertEquals(quiz.getPlanet(), "Planet1");
+    }
 }

@@ -30,33 +30,7 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public Quiz getQuiz(String username, String planet) throws PrerequisiteNotMetException {
-        Quiz quiz = quizRepository.findByPlanet(planet);
-
-        if (quiz == null)
-        {
-            return null;
-        }
-
-        User user = userService.getUser(username);
-
-        if (!user.getRoles().contains(roleRepository.findByName(ROLES.ROLE_ADMIN.toString()))) {
-            boolean isAllowed = false;
-
-            for (World world : user.getWorlds()) {
-                if (world.getPlanet().equals(planet)) {
-                    if (world.getLevelsCompleted() == 4) {
-                        isAllowed = true;
-                    }
-                }
-            }
-
-            if (!isAllowed) {
-                throw new PrerequisiteNotMetException("User: " + username + " does not have access to quiz on planet: " +
-                        planet);
-            }
-        }
-
-        return quiz;
+        return quizRepository.findByPlanet(planet);
     }
 
     @Override
@@ -98,7 +72,6 @@ public class QuizServiceImpl implements QuizService{
 
         correctCount = correctCount*100;
         int score = correctCount / quiz.getQuestions().size();
-
         userService.setQuizScore(username, planet, score);
 
         return score;

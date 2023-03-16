@@ -16,4 +16,6 @@ public class QuestionAnswer {
     private boolean isCorrect;
 
     private int stars;
+
+    private int timeTaken; // in s. 120s for 3 stars, 600s 2 stars else 1 star
 }

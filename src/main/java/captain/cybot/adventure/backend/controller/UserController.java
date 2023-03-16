@@ -3,15 +3,17 @@ package captain.cybot.adventure.backend.controller;
 import captain.cybot.adventure.backend.exception.InvalidRoleException;
 import captain.cybot.adventure.backend.exception.PasswordInvalidException;
 import captain.cybot.adventure.backend.exception.UserAlreadyExistsException;
-import captain.cybot.adventure.backend.model.user.Cosmetic;
-import captain.cybot.adventure.backend.model.user.User;
-import captain.cybot.adventure.backend.model.user.UserStars;
+import captain.cybot.adventure.backend.exception.UsernameAndEmailDontMatchException;
+import captain.cybot.adventure.backend.model.user.*;
+import captain.cybot.adventure.backend.service.EmailService;
 import captain.cybot.adventure.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +27,8 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+
+    private final EmailService emailService;
 
     @PostMapping("")
     public ResponseEntity<?> create(@Valid @RequestBody User user) {
@@ -90,6 +94,53 @@ public class UserController {
             return ResponseEntity.ok().body(userService.getUser(username).getCosmetic());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/leaderboard")
+    public ResponseEntity<?> getLeaderboard(@RequestParam(name = "pageNumber") int pageNumber,
+                                            @RequestParam(name = "usersPerPage") int usersPerPage) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Leaderboard leaderboard = userService.getLeaderboard(username,pageNumber,usersPerPage);
+        if (leaderboard != null) {
+            return ResponseEntity.ok().body(leaderboard);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Leaderboard cannot be gotten at this time");
+        }
+    }
+
+    @PatchMapping("/{username}/password")
+    public ResponseEntity<?> updatePassword(@PathVariable("username") String username,
+                                            @Valid @RequestBody User user) {
+        try {
+            userService.changePassword(username, user.getPassword());
+            return ResponseEntity.ok().body(userService.getUser(username));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{username}/passwordRecovery")
+    public ResponseEntity<?> passwordRecovery(@PathVariable("username") String username,
+                                            @Valid @RequestBody User user) {
+        String newPass;
+        try {
+            newPass = userService.SetRandomPassword(username, user.getEmail());
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (UsernameAndEmailDontMatchException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+
+        EmailDetails details = new EmailDetails();
+        details.setRecipient(user.getEmail());
+        details.setSubject("Captain Cybot Password Recovery");
+        details.setMsgBody("Hello,\n\nYour new password is: " + newPass + "\n\nHave fun playing!\nCaptain Cybot Team");
+        boolean success = emailService.sendSimpleMail(details);
+        if (success) {
+            return ResponseEntity.ok().body(userService.getUser(username));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email failed to send");
         }
     }
 }

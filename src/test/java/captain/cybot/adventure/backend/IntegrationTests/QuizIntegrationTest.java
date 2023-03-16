@@ -92,13 +92,6 @@ public class QuizIntegrationTest {
 
     @Test
     @Order(1)
-    void getUnauthorizedQuiz() throws Exception {
-        mvc.perform(get(QUIZ_URL +"?planet=EARTH").header("Authorization", access_token))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @Order(2)
     void getAuthorizedQuiz() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -121,18 +114,19 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
@@ -162,7 +156,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void quizScoreCalculation0() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -185,18 +179,19 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();
@@ -208,6 +203,38 @@ public class QuizIntegrationTest {
         tmpJsonObj = new JSONObject();
         tmpJsonObj.put("answer", "IncorrectAnswer");
         tmpJsonObj.put("questionNumber", 2);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 3);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 4);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 5);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 6);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 7);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 8);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 9);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 10);
         answerArr.put(tmpJsonObj);
         jsonObj.put("answers", answerArr);
         String quizAnswers = jsonObj.toString();
@@ -241,7 +268,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void quizScoreCalculation50() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -264,18 +291,19 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();
@@ -285,8 +313,40 @@ public class QuizIntegrationTest {
         tmpJsonObj.put("questionNumber", 1);
         answerArr.put(tmpJsonObj);
         tmpJsonObj = new JSONObject();
-        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("answer", "Computer runs very slowly");
         tmpJsonObj.put("questionNumber", 2);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "All the options listed");
+        tmpJsonObj.put("questionNumber", 3);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Malicious self-reproducing programs that change how a computer works");
+        tmpJsonObj.put("questionNumber", 4);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Anti-Virus Software");
+        tmpJsonObj.put("questionNumber", 5);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 6);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 7);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 8);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 9);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "IncorrectAnswer");
+        tmpJsonObj.put("questionNumber", 10);
         answerArr.put(tmpJsonObj);
         jsonObj.put("answers", answerArr);
         String quizAnswers = jsonObj.toString();
@@ -320,7 +380,7 @@ public class QuizIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void quizScoreCalculation100() throws Exception {
         JSONArray answerArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -343,18 +403,19 @@ public class QuizIntegrationTest {
         answerArr.put("malware");
         answerArr.put("viruses");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q4 = jsonObj.toString();
         answerArr = new JSONArray();
         jsonObj = new JSONObject();
         answerArr.put("protection");
         answerArr.put("antivirus");
-        answerArr.put("virus");
         answerArr.put("replicate");
         answerArr.put("slow");
         answerArr.put("malware");
         answerArr.put("creeper");
         answerArr.put("damage");
         jsonObj.put("answers", answerArr);
+        jsonObj.put("timeTaken", 100);
         String w1Q3 = jsonObj.toString();
 
         jsonObj = new JSONObject();
@@ -367,8 +428,41 @@ public class QuizIntegrationTest {
         tmpJsonObj.put("answer", "Computer runs very slowly");
         tmpJsonObj.put("questionNumber", 2);
         answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "All the options listed");
+        tmpJsonObj.put("questionNumber", 3);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Malicious self-reproducing programs that change how a computer works");
+        tmpJsonObj.put("questionNumber", 4);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Anti-Virus Software");
+        tmpJsonObj.put("questionNumber", 5);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Anti-Virus Software");
+        tmpJsonObj.put("questionNumber", 6);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Inspects computer files and email attachments for viruses and removes any that it finds");
+        tmpJsonObj.put("questionNumber", 7);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Antivirus");
+        tmpJsonObj.put("questionNumber", 8);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Creeper");
+        tmpJsonObj.put("questionNumber", 9);
+        answerArr.put(tmpJsonObj);
+        tmpJsonObj = new JSONObject();
+        tmpJsonObj.put("answer", "Protection");
+        tmpJsonObj.put("questionNumber", 10);
+        answerArr.put(tmpJsonObj);
         jsonObj.put("answers", answerArr);
         String quizAnswers = jsonObj.toString();
+
 
         mvc.perform(get(QUESTION_URL +"?planet=MARS&questionNumber=1")
                         .header("Authorization", access_token))
